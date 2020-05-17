@@ -18,15 +18,17 @@ class ViewController: UIViewController {
 
     // Error check computed variables
     var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-"
+        let `operator` = Operator()
+
+        for operatorSign in `operator`.operatorSign where elements.last != operatorSign {
+            return true
+        }
+
+        return false
     }
 
     var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
-    }
-
-    var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-"
     }
 
     var expressionHaveResult: Bool {
@@ -51,19 +53,43 @@ class ViewController: UIViewController {
 
         textView.text.append(numberText)
     }
+    
+    @IBAction func didTapOnOperatorButton(_ sender: UIButton) {
+    
+        switch sender.tag {
+        case OperatorTagProvider.addition.rawValue:
+            print("Tapped on +")
+        case OperatorTagProvider.subtraction.rawValue:
+            print("Tapped on -")
+        case OperatorTagProvider.equal.rawValue:
+            print("Tapped on =")
+        case OperatorTagProvider.multiplication.rawValue:
+            print("Tapped on x")
+        case OperatorTagProvider.division.rawValue:
+            print("Tapped on /")
+        default:
+            return
+        }
+
+    }
+
+    func addAnOperator() {
+        let alertMessageHandler = AlertMessageHandler()
+
+        guard expressionIsCorrect else {
+            alertMessageHandler.showAlertMessage(viewController: self)
+            return
+        }
+        
+        textView.text.append(" + ")
+    }
 
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        if canAddOperator {
-            textView.text.append(" + ")
-        } else {
-            let alertVC = UIAlertController(title: "Zero!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
-        }
+        
     }
 
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if canAddOperator {
+        if expressionIsCorrect {
             textView.text.append(" - ")
         } else {
             let alertVC = UIAlertController(title: "Zero!", message: "Un operateur est déja mis !", preferredStyle: .alert)
@@ -95,9 +121,13 @@ class ViewController: UIViewController {
             let right = Int(operationsToReduce[2])!
 
             let result: Int
+
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
+            case "*": result = left * right
+            case "/": result = left / right
+
             default: fatalError("Unknown operator !")
             }
 
