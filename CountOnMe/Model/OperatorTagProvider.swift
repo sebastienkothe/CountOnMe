@@ -9,5 +9,5 @@
 import Foundation
 
 enum OperatorTagProvider : Int {
-    case addition = 1, subtraction, equal, multiplication, division
+    case addition = 0, subtraction, equal, multiplication, division
 }

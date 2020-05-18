@@ -11,83 +11,77 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
-
+    
     var elements: [String] {
         return textView.text.split(separator: " ").map { "\($0)" }
     }
-
+    
     // Error check computed variables
     var expressionIsCorrect: Bool {
         let `operator` = Operator()
-
+        
         for operatorSign in `operator`.operatorSign where elements.last != operatorSign {
             return true
         }
-
+        
         return false
     }
-
+    
+    
+    
     var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
-
+    
     var expressionHaveResult: Bool {
         return textView.text.firstIndex(of: "=") != nil
     }
-
+    
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
+    
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
             return
         }
-
+        
         if expressionHaveResult {
             textView.text = ""
         }
-
+        
         textView.text.append(numberText)
     }
     
     @IBAction func didTapOnOperatorButton(_ sender: UIButton) {
-    
-        switch sender.tag {
-        case OperatorTagProvider.addition.rawValue:
-            print("Tapped on +")
-        case OperatorTagProvider.subtraction.rawValue:
-            print("Tapped on -")
-        case OperatorTagProvider.equal.rawValue:
-            print("Tapped on =")
-        case OperatorTagProvider.multiplication.rawValue:
-            print("Tapped on x")
-        case OperatorTagProvider.division.rawValue:
-            print("Tapped on /")
-        default:
-            return
-        }
-
+        
+        var `operator` = Operator()
+        `operator`.operatorTag.append(sender.tag)
+        
     }
-
-    func addAnOperator() {
+    
+    func addAnOperator(_ sender: UIButton) {
+        
         let alertMessageHandler = AlertMessageHandler()
-
+        let `operator` = Operator()
+        
         guard expressionIsCorrect else {
             alertMessageHandler.showAlertMessage(viewController: self)
             return
         }
         
-        textView.text.append(" + ")
+        textView.text.append(`operator`.operatorSignProvider)
+        
+        
     }
-
+    
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         
     }
-
+    
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         if expressionIsCorrect {
             textView.text.append(" - ")
@@ -97,45 +91,45 @@ class ViewController: UIViewController {
             self.present(alertVC, animated: true, completion: nil)
         }
     }
-
+    
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         guard expressionIsCorrect else {
             let alertVC = UIAlertController(title: "Zero!", message: "Entrez une expression correcte !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
-
+        
         guard expressionHaveEnoughElement else {
             let alertVC = UIAlertController(title: "Zero!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
-
+        
         // Create local copy of operations
         var operationsToReduce = elements
-
+        
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
             let left = Int(operationsToReduce[0])!
             let operand = operationsToReduce[1]
             let right = Int(operationsToReduce[2])!
-
+            
             let result: Int
-
+            
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
             case "*": result = left * right
             case "/": result = left / right
-
+                
             default: fatalError("Unknown operator !")
             }
-
+            
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
-
+        
         textView.text.append(" = \(operationsToReduce.first!)")
     }
-
+    
 }
