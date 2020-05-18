@@ -18,6 +18,7 @@
 		3602A36E2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A36D2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift */; };
 		3602A3702471A75800AF7806 /* OperatorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A36F2471A75800AF7806 /* OperatorTestCase.swift */; };
 		3602A3722471A77800AF7806 /* OperatorTagProviderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A3712471A77800AF7806 /* OperatorTagProviderTestCase.swift */; };
+		3602A3742472C0CE00AF7806 /* AlertControllerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A3732472C0CE00AF7806 /* AlertControllerProvider.swift */; };
 		36DB8EFB246EE4F700535D2C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36DB8EFA246EE4F700535D2C /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		3602A36D2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessageHandlerTestCase.swift; sourceTree = "<group>"; };
 		3602A36F2471A75800AF7806 /* OperatorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorTestCase.swift; sourceTree = "<group>"; };
 		3602A3712471A77800AF7806 /* OperatorTagProviderTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorTagProviderTestCase.swift; sourceTree = "<group>"; };
+		3602A3732472C0CE00AF7806 /* AlertControllerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerProvider.swift; sourceTree = "<group>"; };
 		36DB8EFA246EE4F700535D2C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				3602A356247163BD00AF7806 /* AlertMessageHandler.swift */,
+				3602A3732472C0CE00AF7806 /* AlertControllerProvider.swift */,
 				3602A35824718F3500AF7806 /* Operator.swift */,
 				3602A35D24719E5700AF7806 /* OperatorTagProvider.swift */,
 			);
@@ -254,6 +257,7 @@
 				3602A35E24719E5700AF7806 /* OperatorTagProvider.swift in Sources */,
 				3602A357247163BD00AF7806 /* AlertMessageHandler.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
+				3602A3742472C0CE00AF7806 /* AlertControllerProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

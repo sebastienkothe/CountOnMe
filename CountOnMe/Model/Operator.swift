@@ -9,31 +9,28 @@
 import Foundation
 
 struct Operator {
-    let operatorSign = ["+", "-", "=", "x", "/"]
-    var operatorTag: [Int] = []
+    let operatorSign = [" + ", " - ", " * ", " / "]
+    let equalSign = " = "
+    
+    /// The operator tag that indicates which operator has been selected
+    static var operatorTag = 0
     
     var operatorSignProvider: String {
-        var operatorSignSelected = ""
         
-        for operatorTag in operatorTag {
-            
-            switch operatorTag {
-            case OperatorTagProvider.addition.rawValue:
-                operatorSignSelected = operatorSign[OperatorTagProvider.addition.rawValue]
-            case OperatorTagProvider.subtraction.rawValue:
-                operatorSignSelected = operatorSign[OperatorTagProvider.subtraction.rawValue]
-            case OperatorTagProvider.equal.rawValue:
-                operatorSignSelected = operatorSign[OperatorTagProvider.equal.rawValue]
-            case OperatorTagProvider.multiplication.rawValue:
-                operatorSignSelected = operatorSign[OperatorTagProvider.multiplication.rawValue]
-            case OperatorTagProvider.division.rawValue:
-                operatorSignSelected = operatorSign[OperatorTagProvider.division.rawValue]
-            default:
-                break
-            }
-            
+        switch Operator.operatorTag {
+        case OperatorTagProvider.addition.rawValue:
+            return operatorSign[OperatorTagProvider.addition.rawValue]
+        case OperatorTagProvider.subtraction.rawValue:
+            return operatorSign[OperatorTagProvider.subtraction.rawValue]
+        case OperatorTagProvider.multiplication.rawValue:
+            return operatorSign[OperatorTagProvider.multiplication.rawValue]
+        case OperatorTagProvider.division.rawValue:
+            return operatorSign[OperatorTagProvider.division.rawValue]
+        default:
+            return ""
         }
-        return operatorSignSelected
+        
+       
     }
 }
 

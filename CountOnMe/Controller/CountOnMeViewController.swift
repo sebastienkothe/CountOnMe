@@ -19,18 +19,25 @@ class ViewController: UIViewController {
     // Error check computed variables
     var expressionIsCorrect: Bool {
         let `operator` = Operator()
+        let alertMessageHandler = AlertMessageHandler()
         
-        for operatorSign in `operator`.operatorSign where elements.last != operatorSign {
+        for operatorSign in `operator`.operatorSign where elements.last != operatorSign /*.trimmingCharacters(in: .whitespaces)*/ {
             return true
         }
         
+        alertMessageHandler.showAlertMessage(viewController: self, alertControllerIndex: 0)
         return false
     }
     
-    
-    
     var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
+        let alertMessageHandler = AlertMessageHandler()
+        
+        if elements.count >= 3 {
+            return true
+        }
+        
+        alertMessageHandler.showAlertMessage(viewController: self, alertControllerIndex: 0)
+        return false
     }
     
     var expressionHaveResult: Bool {
@@ -45,6 +52,7 @@ class ViewController: UIViewController {
     
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
+        
         guard let numberText = sender.title(for: .normal) else {
             return
         }
@@ -57,52 +65,28 @@ class ViewController: UIViewController {
     }
     
     @IBAction func didTapOnOperatorButton(_ sender: UIButton) {
-        
-        var `operator` = Operator()
-        `operator`.operatorTag.append(sender.tag)
-        
+        Operator.operatorTag = sender.tag
+        addAnOperator()
     }
     
-    func addAnOperator(_ sender: UIButton) {
-        
-        let alertMessageHandler = AlertMessageHandler()
+    func addAnOperator() {
         let `operator` = Operator()
         
         guard expressionIsCorrect else {
-            alertMessageHandler.showAlertMessage(viewController: self)
             return
         }
-        
+    
         textView.text.append(`operator`.operatorSignProvider)
-        
-        
-    }
-    
-    @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        
-    }
-    
-    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if expressionIsCorrect {
-            textView.text.append(" - ")
-        } else {
-            let alertVC = UIAlertController(title: "Zero!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
-        }
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
+        
         guard expressionIsCorrect else {
-            let alertVC = UIAlertController(title: "Zero!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
+            return
         }
         
         guard expressionHaveEnoughElement else {
-            let alertVC = UIAlertController(title: "Zero!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
+            return
         }
         
         // Create local copy of operations

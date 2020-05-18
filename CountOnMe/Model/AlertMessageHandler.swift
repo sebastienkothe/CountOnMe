@@ -11,14 +11,15 @@ import UIKit
 
 class AlertMessageHandler {
 
-    func showAlertMessage(viewController: UIViewController) {
+    func showAlertMessage(viewController: UIViewController, alertControllerIndex: Int) {
         currentViewController = viewController
+        
+        // Contains the desired UIAlertController instance
+        let alertController = AlertControllerProvider().alertController[alertControllerIndex]
+        
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 
-        let alertViewController = UIAlertController(title: "Zero!", message: "An operator already exists !", preferredStyle: .alert)
-        
-        alertViewController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        
-        viewController.present(alertViewController, animated: true, completion: nil)
+        viewController.present(alertController, animated: true, completion: nil)
     }
     
     //MARK: Private Properties
