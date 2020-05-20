@@ -28,13 +28,11 @@ final class ExpressionChecker {
         return true
     }
 
-    internal func expressionHasAResult(element: UITextView) -> Bool {
+    internal func checkIfTheExpressionHasAResult(element: UITextView) -> Bool {
+        return element.text.firstIndex(of: "=") != nil
+    }
 
-        if element.text.firstIndex(of: "=") != nil {
-            return true
-        }
-
-        return false
-
+    internal func checkIfTheExpressionHaveEnoughElements(itemsToCheck: [String]) -> Bool {
+        return itemsToCheck.count >= 3
     }
 }

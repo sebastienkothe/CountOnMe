@@ -24,7 +24,7 @@ class ViewController: UIViewController {
 
     // View actions
     @IBAction func didTapOnNumberButton(_ sender: UIButton) {
-        let expressionHasAResult = ExpressionChecker().expressionHasAResult(element: textView)
+        let expressionHasAResult = ExpressionChecker().checkIfTheExpressionHasAResult(element: textView)
 
         guard let numberText = sender.title(for: .normal) else {
             return
@@ -38,12 +38,15 @@ class ViewController: UIViewController {
     }
 
     @IBAction func didTapOnOperatorButton(_ sender: UIButton) {
-        let expressionHasAResult = ExpressionChecker().expressionHasAResult(element: textView)
+        let expressionHasAResult = ExpressionChecker().checkIfTheExpressionHasAResult(element: textView)
+        let alertMessageHandler = AlertMessageHandler()
 
         guard !expressionHasAResult else {
+            alertMessageHandler.showAlertMessage(viewController: self, alertControllerIndex: 2)
             return
         }
-        // To save the sender's tag and to use it most later
+        
+        // To save the sender's tag
         Operator.operatorTag = sender.tag
         addAnOperator()
     }
@@ -51,8 +54,10 @@ class ViewController: UIViewController {
     func addAnOperator() {
         let `operator` = Operator()
         let expressionIsCorrect = ExpressionChecker().checkIfTheExpressionIsCorrect(itemsToCheck: elements)
+        let alertMessageHandler = AlertMessageHandler()
 
         guard expressionIsCorrect else {
+            alertMessageHandler.showAlertMessage(viewController: self, alertControllerIndex: 0)
             return
         }
 
@@ -64,21 +69,23 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
+
         let alertMessageHandler = AlertMessageHandler()
 
-        let expressionHasAResult = ExpressionChecker().expressionHasAResult(element: textView)
-
-        guard !expressionHasAResult else {
+        let expressionHasAResult = ExpressionChecker().checkIfTheExpressionHasAResult(element: textView)
+        if expressionHasAResult {
+            alertMessageHandler.showAlertMessage(viewController: self, alertControllerIndex: 2)
             return
         }
 
-        let expresionIsCorrect = ExpressionChecker().checkIfTheExpressionIsCorrect(itemsToCheck: elements)
-
-        guard expresionIsCorrect else {
+        let expressionIsCorrect = ExpressionChecker().checkIfTheExpressionIsCorrect(itemsToCheck: elements)
+        if !expressionIsCorrect {
+            alertMessageHandler.showAlertMessage(viewController: self, alertControllerIndex: 4)
             return
         }
-
-        guard elements.count >= 3 else {
+        
+        let expressionHasEnoughElements = ExpressionChecker().checkIfTheExpressionHaveEnoughElements(itemsToCheck: elements)
+        if !expressionHasEnoughElements {
             alertMessageHandler.showAlertMessage(viewController: self, alertControllerIndex: 1)
             return
         }
@@ -88,26 +95,24 @@ class ViewController: UIViewController {
 
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            let operand: String? = operationsToReduce[1]
+            let operatorRecovered: String? = operationsToReduce[1]
             let operandLeft: String? = operationsToReduce[0]
             let operandRight: String? = operationsToReduce[2]
 
-            let operationItems = [operand, operandLeft, operandRight]
+            let operationItems = [operatorRecovered, operandLeft, operandRight]
 
             for item in operationItems where item == nil {
                 return
             }
 
-            guard let operandLeftConverted = Int(operandLeft!),
-                  let operandRightConverted = Int(operandRight!) else {
-
-                    textView.text = "ERROR"
+            guard let operandLeftConverted = Int(operandLeft!), let operandRightConverted = Int(operandRight!) else {
+                textView.text = "ERROR"
                 return
             }
 
             let calculation = Calculation()
 
-            guard let result = calculation.performTheOperation(operatorRecovered: operand!, operandLeft: operandLeftConverted, operandRight: operandRightConverted) else {
+            guard let result = calculation.performTheOperation(operatorRecovered: operatorRecovered!, operandLeft: operandLeftConverted, operandRight: operandRightConverted) else {
                 return
             }
 
