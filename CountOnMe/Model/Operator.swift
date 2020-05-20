@@ -9,29 +9,23 @@
 import Foundation
 
 struct Operator {
-    let operatorSign = [" + ", " - ", " * ", " / "]
-    let equalSign = " = "
-    
+
+    // MARK: - Internal properties
+    internal let operatorSign = [0: " + ", 1: " - ", 2: " * ", 3: " / "]
+
     /// The operator tag that indicates which operator has been selected
-    static var operatorTag = 0
-    
-    var operatorSignProvider: String {
-        
-        switch Operator.operatorTag {
-        case OperatorTagProvider.addition.rawValue:
-            return operatorSign[OperatorTagProvider.addition.rawValue]
-        case OperatorTagProvider.subtraction.rawValue:
-            return operatorSign[OperatorTagProvider.subtraction.rawValue]
-        case OperatorTagProvider.multiplication.rawValue:
-            return operatorSign[OperatorTagProvider.multiplication.rawValue]
-        case OperatorTagProvider.division.rawValue:
-            return operatorSign[OperatorTagProvider.division.rawValue]
-        default:
-            return ""
+    internal static var operatorTag = 0
+
+    internal var operatorSignProvider: String? {
+
+        for (key, _) in operatorSign where Operator.operatorTag == key {
+            return operatorSign[key]
         }
-        
-       
+
+        return nil
     }
+
+    // MARK: - Private properties
+    private let equalSign = " = "
+
 }
-
-

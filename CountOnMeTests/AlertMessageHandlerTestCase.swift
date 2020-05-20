@@ -11,13 +11,13 @@ import XCTest
 
 class AlertMessageHandlerTestCase: XCTestCase {
     var alertMessageHandler: AlertMessageHandler!
-    
+
     override func setUp() {
         alertMessageHandler = AlertMessageHandler()
     }
-    
+
     func testGivenThatAnInstanceHasBeenCreated_WhenTryingToAccessOfIt_ThenValueShouldBeNotNil() {
         XCTAssertNotNil(alertMessageHandler)
     }
-    
+
 }

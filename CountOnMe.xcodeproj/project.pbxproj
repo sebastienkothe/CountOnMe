@@ -14,11 +14,12 @@
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
 		3602A357247163BD00AF7806 /* AlertMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A356247163BD00AF7806 /* AlertMessageHandler.swift */; };
 		3602A35924718F3500AF7806 /* Operator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A35824718F3500AF7806 /* Operator.swift */; };
-		3602A35E24719E5700AF7806 /* OperatorTagProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A35D24719E5700AF7806 /* OperatorTagProvider.swift */; };
 		3602A36E2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A36D2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift */; };
 		3602A3702471A75800AF7806 /* OperatorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A36F2471A75800AF7806 /* OperatorTestCase.swift */; };
 		3602A3722471A77800AF7806 /* OperatorTagProviderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A3712471A77800AF7806 /* OperatorTagProviderTestCase.swift */; };
 		3602A3742472C0CE00AF7806 /* AlertControllerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A3732472C0CE00AF7806 /* AlertControllerProvider.swift */; };
+		3671F5E2247560E900310755 /* Calculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3671F5E1247560E900310755 /* Calculation.swift */; };
+		3671F5E4247561CE00310755 /* ExpressionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3671F5E3247561CE00310755 /* ExpressionChecker.swift */; };
 		36DB8EFB246EE4F700535D2C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36DB8EFA246EE4F700535D2C /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -42,13 +43,14 @@
 		1FA43BDE224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3602A356247163BD00AF7806 /* AlertMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessageHandler.swift; sourceTree = "<group>"; };
 		3602A35824718F3500AF7806 /* Operator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operator.swift; sourceTree = "<group>"; };
-		3602A35D24719E5700AF7806 /* OperatorTagProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorTagProvider.swift; sourceTree = "<group>"; };
 		3602A3632471A55100AF7806 /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3602A3672471A55100AF7806 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3602A36D2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessageHandlerTestCase.swift; sourceTree = "<group>"; };
 		3602A36F2471A75800AF7806 /* OperatorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorTestCase.swift; sourceTree = "<group>"; };
 		3602A3712471A77800AF7806 /* OperatorTagProviderTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorTagProviderTestCase.swift; sourceTree = "<group>"; };
 		3602A3732472C0CE00AF7806 /* AlertControllerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerProvider.swift; sourceTree = "<group>"; };
+		3671F5E1247560E900310755 /* Calculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculation.swift; sourceTree = "<group>"; };
+		3671F5E3247561CE00310755 /* ExpressionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionChecker.swift; sourceTree = "<group>"; };
 		36DB8EFA246EE4F700535D2C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,7 +119,8 @@
 				3602A356247163BD00AF7806 /* AlertMessageHandler.swift */,
 				3602A3732472C0CE00AF7806 /* AlertControllerProvider.swift */,
 				3602A35824718F3500AF7806 /* Operator.swift */,
-				3602A35D24719E5700AF7806 /* OperatorTagProvider.swift */,
+				3671F5E1247560E900310755 /* Calculation.swift */,
+				3671F5E3247561CE00310755 /* ExpressionChecker.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 				1FA43BCB224E569900F565CB /* Sources */,
 				1FA43BCC224E569900F565CB /* Frameworks */,
 				1FA43BCD224E569900F565CB /* Resources */,
+				36C5AA6924757E9800919906 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -247,15 +251,36 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		36C5AA6924757E9800919906 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1FA43BCB224E569900F565CB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				1FA43BD5224E569900F565CB /* CountOnMeViewController.swift in Sources */,
+				3671F5E2247560E900310755 /* Calculation.swift in Sources */,
 				3602A35924718F3500AF7806 /* Operator.swift in Sources */,
-				3602A35E24719E5700AF7806 /* OperatorTagProvider.swift in Sources */,
 				3602A357247163BD00AF7806 /* AlertMessageHandler.swift in Sources */,
+				3671F5E4247561CE00310755 /* ExpressionChecker.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
 				3602A3742472C0CE00AF7806 /* AlertControllerProvider.swift in Sources */,
 			);

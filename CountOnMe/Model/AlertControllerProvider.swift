@@ -10,14 +10,14 @@ import Foundation
 import UIKit
 
 struct AlertControllerProvider {
-    
-   let alertController = [
-    
-    UIAlertController(title: "Error", message: "An operator already exists !", preferredStyle: .alert),
-    
-    UIAlertController(title: "Error", message: "Enter a correct expression!", preferredStyle: .alert),
-    
-    UIAlertController(title: "Zero!", message: "Start a new calculation!", preferredStyle: .alert)
-    
+
+   internal let alertController = [
+
+    UIAlertController(title: "Error", message: "An operator already exists", preferredStyle: .alert),
+
+    UIAlertController(title: "Error", message: "Enter a correct expression", preferredStyle: .alert),
+
+    UIAlertController(title: "Error", message: "Start a new calculation", preferredStyle: .alert),
+
     ]
 }
