@@ -18,7 +18,10 @@ struct AlertControllerProvider {
     UIAlertController(title: "Error", message: "Not enough elements", preferredStyle: .alert),
 
     UIAlertController(title: "Error", message: "Start a new calculation", preferredStyle: .alert),
+
     UIAlertController(title: "Error", message: "Equal operator already exists", preferredStyle: .alert),
+
     UIAlertController(title: "Error", message: "Invalid expression", preferredStyle: .alert)
+
     ]
 }

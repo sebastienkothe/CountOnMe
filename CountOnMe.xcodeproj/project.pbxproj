@@ -16,8 +16,10 @@
 		3602A35924718F3500AF7806 /* Operator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A35824718F3500AF7806 /* Operator.swift */; };
 		3602A36E2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A36D2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift */; };
 		3602A3702471A75800AF7806 /* OperatorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A36F2471A75800AF7806 /* OperatorTestCase.swift */; };
-		3602A3722471A77800AF7806 /* OperatorTagProviderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A3712471A77800AF7806 /* OperatorTagProviderTestCase.swift */; };
 		3602A3742472C0CE00AF7806 /* AlertControllerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602A3732472C0CE00AF7806 /* AlertControllerProvider.swift */; };
+		364F03AD2475C1E5003A8262 /* AlertControllerProviderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364F03AC2475C1E5003A8262 /* AlertControllerProviderTestCase.swift */; };
+		364F03AF2475C221003A8262 /* CalculationTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364F03AE2475C221003A8262 /* CalculationTestCase.swift */; };
+		364F03B12475C239003A8262 /* ExpressionCheckerTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364F03B02475C239003A8262 /* ExpressionCheckerTestCase.swift */; };
 		3671F5E2247560E900310755 /* Calculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3671F5E1247560E900310755 /* Calculation.swift */; };
 		3671F5E4247561CE00310755 /* ExpressionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3671F5E3247561CE00310755 /* ExpressionChecker.swift */; };
 		36DB8EFB246EE4F700535D2C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36DB8EFA246EE4F700535D2C /* Default-568h@2x.png */; };
@@ -47,8 +49,10 @@
 		3602A3672471A55100AF7806 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3602A36D2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessageHandlerTestCase.swift; sourceTree = "<group>"; };
 		3602A36F2471A75800AF7806 /* OperatorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorTestCase.swift; sourceTree = "<group>"; };
-		3602A3712471A77800AF7806 /* OperatorTagProviderTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorTagProviderTestCase.swift; sourceTree = "<group>"; };
 		3602A3732472C0CE00AF7806 /* AlertControllerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerProvider.swift; sourceTree = "<group>"; };
+		364F03AC2475C1E5003A8262 /* AlertControllerProviderTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerProviderTestCase.swift; sourceTree = "<group>"; };
+		364F03AE2475C221003A8262 /* CalculationTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationTestCase.swift; sourceTree = "<group>"; };
+		364F03B02475C239003A8262 /* ExpressionCheckerTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionCheckerTestCase.swift; sourceTree = "<group>"; };
 		3671F5E1247560E900310755 /* Calculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculation.swift; sourceTree = "<group>"; };
 		3671F5E3247561CE00310755 /* ExpressionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionChecker.swift; sourceTree = "<group>"; };
 		36DB8EFA246EE4F700535D2C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -107,8 +111,10 @@
 			children = (
 				3602A3672471A55100AF7806 /* Info.plist */,
 				3602A36D2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift */,
+				364F03AC2475C1E5003A8262 /* AlertControllerProviderTestCase.swift */,
 				3602A36F2471A75800AF7806 /* OperatorTestCase.swift */,
-				3602A3712471A77800AF7806 /* OperatorTagProviderTestCase.swift */,
+				364F03AE2475C221003A8262 /* CalculationTestCase.swift */,
+				364F03B02475C239003A8262 /* ExpressionCheckerTestCase.swift */,
 			);
 			path = CountOnMeTests;
 			sourceTree = "<group>";
@@ -291,8 +297,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3602A36E2471A5F200AF7806 /* AlertMessageHandlerTestCase.swift in Sources */,
-				3602A3722471A77800AF7806 /* OperatorTagProviderTestCase.swift in Sources */,
 				3602A3702471A75800AF7806 /* OperatorTestCase.swift in Sources */,
+				364F03AD2475C1E5003A8262 /* AlertControllerProviderTestCase.swift in Sources */,
+				364F03B12475C239003A8262 /* ExpressionCheckerTestCase.swift in Sources */,
+				364F03AF2475C221003A8262 /* CalculationTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

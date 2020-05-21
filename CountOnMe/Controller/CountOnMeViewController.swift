@@ -45,7 +45,7 @@ class ViewController: UIViewController {
             alertMessageHandler.showAlertMessage(viewController: self, alertControllerIndex: 2)
             return
         }
-        
+
         // To save the sender's tag
         Operator.operatorTag = sender.tag
         addAnOperator()
@@ -83,7 +83,7 @@ class ViewController: UIViewController {
             alertMessageHandler.showAlertMessage(viewController: self, alertControllerIndex: 4)
             return
         }
-        
+
         let expressionHasEnoughElements = ExpressionChecker().checkIfTheExpressionHaveEnoughElements(itemsToCheck: elements)
         if !expressionHasEnoughElements {
             alertMessageHandler.showAlertMessage(viewController: self, alertControllerIndex: 1)
