@@ -14,6 +14,7 @@ struct Operator {
     // MARK: - Internal properties
     internal let operatorSign = [0: " + ", 1: " - ", 2: " * ", 3: " / "]
 
+    // MARK: - Internal methods
     internal func addAnOperator(senderTag: Int, textView: UITextView) {
         var operatorSelected: String?
 

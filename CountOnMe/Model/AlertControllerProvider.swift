@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 struct AlertControllerProvider {
-
+    
+    // MARK: Internal properties
    internal let alertController = [
 
     UIAlertController(title: "Error", message: "An operator already exists", preferredStyle: .alert),

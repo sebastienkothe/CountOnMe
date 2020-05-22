@@ -10,9 +10,7 @@ import Foundation
 import UIKit
 
 final class ExpressionChecker {
-
-    deinit {}
-
+    
     // MARK: - Internal methods
 
     // Error check computed variables
@@ -35,16 +33,15 @@ final class ExpressionChecker {
     }
 
     internal func checkTheExpressionConformity(textView: UITextView, elements: [String]) -> [Int] {
-        let expressionChecker = ExpressionChecker()
         var errorsFound = [Int]()
 
         if textView.text == "ERROR" { errorsFound.append(1) }
 
-        if !expressionChecker.checkTheExpressionLength(itemsToCheck: elements) { errorsFound.append(2) }
+        if !checkTheExpressionLength(itemsToCheck: elements) { errorsFound.append(2) }
 
-        if expressionChecker.checkIfTheExpressionHasAResult(element: textView) { errorsFound.append(3) }
+        if checkIfTheExpressionHasAResult(element: textView) { errorsFound.append(3) }
 
-        if !expressionChecker.checkIfTheExpressionIsCorrect(itemsToCheck: elements) { errorsFound.append(4) }
+        if !checkIfTheExpressionIsCorrect(itemsToCheck: elements) { errorsFound.append(4) }
 
         return errorsFound
     }

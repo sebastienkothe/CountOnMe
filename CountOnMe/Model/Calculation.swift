@@ -10,8 +10,7 @@ import Foundation
 
 final class Calculation {
 
-    deinit {}
-
+    // MARK: - Internal methods
     internal func performTheOperation(_ operatorRecovered: String, _ operandLeft: Int, _ operandRight: Int) -> Int? {
         let result: Int?
 

@@ -11,6 +11,7 @@ import UIKit
 
 final class AlertMessageHandler {
 
+    // MARK: Internal methods
     internal func showAlertMessage(viewController: UIViewController, alertControllerIndex: Int) {
         currentViewController = viewController
 
@@ -22,7 +23,7 @@ final class AlertMessageHandler {
         viewController.present(alertController, animated: true, completion: nil)
     }
 
-    // MARK: Private Properties
+    // MARK: Private properties
 
     private var currentViewController: UIViewController!
 
