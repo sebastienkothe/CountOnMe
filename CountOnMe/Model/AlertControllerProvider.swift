@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 struct AlertControllerProvider {
-    
+
     // MARK: Internal properties
    internal let alertController = [
 
