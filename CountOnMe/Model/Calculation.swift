@@ -10,11 +10,9 @@ import Foundation
 
 final class Calculation {
 
-    deinit {
-        print("An object has been destroyed")
-    }
+    deinit {}
 
-    internal func performTheOperation(operatorRecovered: String, operandLeft: Int, operandRight: Int) -> Int? {
+    internal func performTheOperation(_ operatorRecovered: String, _ operandLeft: Int, _ operandRight: Int) -> Int? {
         let result: Int?
 
         switch operatorRecovered {

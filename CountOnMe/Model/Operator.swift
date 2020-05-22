@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Operator {
 
@@ -16,13 +17,16 @@ struct Operator {
     /// The operator tag that indicates which operator has been selected
     internal static var operatorTag = 0
 
-    internal var operatorSignProvider: String? {
+    internal func addAnOperator(senderTag: Int, textView: UITextView) {
+        var operatorSelected: String?
 
-        for (key, _) in operatorSign where Operator.operatorTag == key {
-            return operatorSign[key]
+        for (key, _) in operatorSign where senderTag == key {
+           operatorSelected = operatorSign[key]
         }
 
-        return nil
+        guard let operatorSelectedByUser = operatorSelected else { return }
+
+        textView.text.append(operatorSelectedByUser)
     }
 
     // MARK: - Private properties

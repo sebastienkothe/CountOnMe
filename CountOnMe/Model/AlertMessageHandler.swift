@@ -11,10 +11,6 @@ import UIKit
 
 final class AlertMessageHandler {
 
-    deinit {
-        print("An object has been destroyed")
-    }
-
     internal func showAlertMessage(viewController: UIViewController, alertControllerIndex: Int) {
         currentViewController = viewController
 

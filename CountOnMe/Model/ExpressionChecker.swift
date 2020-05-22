@@ -11,9 +11,7 @@ import UIKit
 
 final class ExpressionChecker {
 
-    deinit {
-        print("An object has been destroyed")
-    }
+    deinit {}
 
     // MARK: - Internal methods
 
@@ -32,7 +30,23 @@ final class ExpressionChecker {
         return element.text.firstIndex(of: "=") != nil
     }
 
-    internal func checkIfTheExpressionHaveEnoughElements(itemsToCheck: [String]) -> Bool {
+    internal func checkTheExpressionLength(itemsToCheck: [String]) -> Bool {
         return itemsToCheck.count >= 3
     }
+
+    internal func checkTheExpressionConformity(textView: UITextView, elements: [String]) -> [Int] {
+        let expressionChecker = ExpressionChecker()
+        var errorsFound = [Int]()
+
+        if textView.text == "ERROR" { errorsFound.append(1) }
+
+        if !expressionChecker.checkTheExpressionLength(itemsToCheck: elements) { errorsFound.append(2) }
+
+        if expressionChecker.checkIfTheExpressionHasAResult(element: textView) { errorsFound.append(3) }
+
+        if !expressionChecker.checkIfTheExpressionIsCorrect(itemsToCheck: elements) { errorsFound.append(4) }
+
+        return errorsFound
+    }
+
 }
