@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 final class ExpressionChecker {
-    
+
     // MARK: - Internal methods
 
     // Error check computed variables

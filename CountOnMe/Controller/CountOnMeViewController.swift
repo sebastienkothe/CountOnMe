@@ -24,6 +24,8 @@ class ViewController: UIViewController {
     }
 
     // MARK: Private methods
+
+    // @IBAction
     @IBAction private func didTapOnNumberButton(_ sender: UIButton) {
 
         guard let numberText = sender.title(for: .normal) else {
@@ -87,6 +89,7 @@ class ViewController: UIViewController {
         textView.text.append(" = \(operationsToReduce.first!)")
     }
 
+    // Private methods
     private func showTheMessageAlertNumber(_ number: Int) {
         AlertMessageHandler().showAlertMessage(viewController: self, alertControllerIndex: number)
     }
