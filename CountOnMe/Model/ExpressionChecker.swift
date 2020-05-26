@@ -12,15 +12,13 @@ import UIKit
 final class ExpressionChecker {
 
     // MARK: - Internal methods
-
-    // Error check computed variables
     internal func checkIfTheExpressionIsCorrect(itemsToCheck: [String]) -> Bool {
-        let `operator` = Operator()
+        var operatorSign = Operator().operatorSign
+        operatorSign[4] = " = "
 
-        for (_, `operator`) in `operator`.operatorSign where itemsToCheck.last == `operator`.trimmingCharacters(in: .whitespaces) || itemsToCheck.last == "=" {
+        for (_, `operator`) in operatorSign where itemsToCheck.last == `operator`.trimmingCharacters(in: .whitespaces) {
             return false
         }
-
         return true
     }
 
@@ -45,5 +43,4 @@ final class ExpressionChecker {
 
         return errorsFound
     }
-
 }

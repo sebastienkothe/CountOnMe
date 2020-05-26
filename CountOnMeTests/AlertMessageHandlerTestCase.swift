@@ -11,13 +11,21 @@ import XCTest
 
 class AlertMessageHandlerTestCase: XCTestCase {
     var alertMessageHandler: AlertMessageHandler!
+    var viewController: ViewController!
 
     override func setUp() {
         alertMessageHandler = AlertMessageHandler()
+        viewController = ViewController()
     }
 
     func testGivenThatAnInstanceHasBeenCreated_WhenTryingToAccessOfIt_ThenValueShouldBeNotNil() {
         XCTAssertNotNil(alertMessageHandler)
     }
 
+    func testGivenTheArrayContainsFiveObjects_WhenTryingToAccessToEachOne_ThenNoErrorsShouldBeReturned() {
+        let showAlertMessage = alertMessageHandler.showAlertMessage(viewController:alertControllerIndex:)
+        for index in 0...4 {
+            XCTAssertNoThrow(showAlertMessage(viewController, index))
+        }
+    }
 }

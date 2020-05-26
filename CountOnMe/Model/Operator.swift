@@ -29,5 +29,4 @@ struct Operator {
 
     // MARK: - Private properties
     private let equalSign = " = "
-
 }

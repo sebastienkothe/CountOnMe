@@ -29,7 +29,7 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="Icon-App-83.5x83.5" translatesAutoresizingMaskIntoConstraints="NO" id="GyS-Gt-sa8">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="Icon-App" translatesAutoresizingMaskIntoConstraints="NO" id="GyS-Gt-sa8">
                                 <rect key="frame" x="153" y="274.33333333333331" width="108" height="156"/>
                             </imageView>
                         </subviews>
@@ -51,6 +51,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Icon-App-83.5x83.5" width="60" height="60"/>
+        <image name="Icon-App" width="60" height="60"/>
     </resources>
 </document>

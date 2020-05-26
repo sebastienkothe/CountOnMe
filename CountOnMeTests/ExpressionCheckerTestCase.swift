@@ -21,7 +21,7 @@ class ExpressionCheckerTestCase: XCTestCase {
     }
 
     // Method tested : checkIfTheExpressionIsCorrect(itemsToCheck: [String]) -> Bool
-    func testGivenItemsToCheckContainsAllOperatorsAndANumber_WhenItemsIsAddedToTheMethod_ThenValueShouldBeFalse() {
+    func testGivenItemsContainsAllOperatorsAndANumber_WhenItemsIsAddedToTheMethod_ThenValueShouldBeFalse() {
         itemsToCheck = ["1", "+", "-", "*", "/", "="]
 
         for _ in itemsToCheck where itemsToCheck.count > 1 {
@@ -34,23 +34,49 @@ class ExpressionCheckerTestCase: XCTestCase {
     }
 
     // Method tested : checkIfTheExpressionHasAResult(element: UITextView) -> Bool
-    func testGivenElementContainsEqualOperator_WhenElementIsAddedToTheMethod_ThenValueShouldBeTrue() {
+    func testGivenTextViewContainsEqualOperator_WhenTextViewIsAddedToTheMethod_ThenValueShouldBeTrue() {
+
         textView.text.append("=")
         XCTAssertTrue(expressionChecker.checkIfTheExpressionHasAResult(element: textView))
+        textView.text.removeAll()
 
+        // And without value, the method must return false
+        XCTAssertFalse(expressionChecker.checkIfTheExpressionHasAResult(element: textView))
     }
 
     // Method tested : checkTheExpressionLength(itemsToCheck: [String]) -> Bool
-    func testGivenItemsToCheckContainsThreeNumbersAndLess_WhenItemsIsAddedToTheMethod_ThenValueShouldBeTrue() {
+    func testGivenTheArrayContainsAnElement_WhenTheArrayIsAddedToTheMethod_ThenValueShouldBeFalse() {
 
-        itemsToCheck = ["0", "+"]
+        itemsToCheck = ["0"]
 
-        for _ in itemsToCheck where itemsToCheck.count < 3 {
+        while itemsToCheck.count < 3 {
             XCTAssertFalse(expressionChecker.checkTheExpressionLength(itemsToCheck: itemsToCheck))
             itemsToCheck.append("0")
         }
 
+        // From three elements, the method must return true
         XCTAssertTrue(expressionChecker.checkTheExpressionLength(itemsToCheck: itemsToCheck))
+    }
 
+    // Method tested : checkTheExpressionConformity(textView: UITextView, elements: [String]) -> [Int]
+    func testGivenTextViewContainsTheErrorMessage_WhenTextViewIsAddedToTheMethod_ThenResultShouldContainOne() {
+
+        // textViewCases contains two error cases (1 & 3)
+        let textViewCases = ["ERROR", "="]
+
+        // itemsToCheck contains an error case (2)
+        itemsToCheck = ["1", "+"]
+
+        var result = [Int]()
+
+        for index in 0..<2 {
+        textView.text += textViewCases[index]
+        result += expressionChecker.checkTheExpressionConformity(textView: textView, elements: itemsToCheck)
+            textView.text = ""
+        }
+
+        XCTAssert(result.contains(1))
+        XCTAssert(result.contains(2))
+        XCTAssert(result.contains(3))
     }
 }

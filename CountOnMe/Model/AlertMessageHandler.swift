@@ -24,7 +24,6 @@ final class AlertMessageHandler {
     }
 
     // MARK: Private properties
-
     private var currentViewController: UIViewController!
 
 }

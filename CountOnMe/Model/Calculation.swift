@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class Calculation {
+struct Calculation {
 
     // MARK: - Internal methods
     internal func performTheOperation(_ operatorRecovered: String, _ operandLeft: Int, _ operandRight: Int) -> Int? {
