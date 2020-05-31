@@ -11,11 +11,11 @@ import XCTest
 
 class AlertMessageHandlerTestCase: XCTestCase {
     var alertMessageHandler: AlertMessageHandler!
-    var viewController: ViewController!
+    var viewController: CalculatorViewController!
 
     override func setUp() {
         alertMessageHandler = AlertMessageHandler()
-        viewController = ViewController()
+        viewController = CalculatorViewController()
     }
 
     func testGivenThatAnInstanceHasBeenCreated_WhenTryingToAccessOfIt_ThenValueShouldBeNotNil() {

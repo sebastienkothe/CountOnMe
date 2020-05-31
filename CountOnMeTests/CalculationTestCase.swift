@@ -10,11 +10,11 @@ import XCTest
 @testable import CountOnMe
 
 class CalculationTestCase: XCTestCase {
-    var calculation: Calculation!
+    var calculation: Calculator!
     var `operator`: Operator!
 
     override func setUp() {
-        calculation = Calculation()
+        calculation = Calculator()
         `operator` = Operator()
     }
 

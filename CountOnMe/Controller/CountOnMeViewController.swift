@@ -8,40 +8,52 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController {
 
     // MARK: Internal methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let calculator = Calculator()
+        calculator.delegate = self
     }
 
     // MARK: Private properties
-    @IBOutlet weak private var textView: UITextView!
+    @IBOutlet weak private var calculatorScreenTextView: UITextView!
     @IBOutlet private var numberButtons: [UIButton]!
 
     private var elements: [String] {
-        return textView.text.split(separator: " ").map { "\($0)" }
+        return calculatorScreenTextView.text.split(separator: " ").map { "\($0)" }
     }
 
     // MARK: Private methods
 
     // @IBAction
-    @IBAction private func didTapOnNumberButton(_ sender: UIButton) {
-
+    @IBAction private func didTapOnDigitButton(_ sender: UIButton) {
+        
         guard let numberText = sender.title(for: .normal) else {
             return
         }
 
-        let errorsFound = ExpressionChecker().checkTheExpressionConformity(textView: textView, elements: elements)
+        let errorsFound = ExpressionChecker().checkTheExpressionConformity(textView: calculatorScreenTextView, elements: elements)
 
-        if errorsFound.contains(1) || errorsFound.contains(3) { textView.text = "" }
+        if errorsFound.contains(1) || errorsFound.contains(3) { calculatorScreenTextView.text = "" }
 
-        textView.text.append(numberText)
+        calculatorScreenTextView.text.append(numberText)
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     @IBAction private func didTapOnOperatorButton(_ sender: UIButton) {
 
-        let errorsFound = ExpressionChecker().checkTheExpressionConformity(textView: textView, elements: elements)
+        let errorsFound = ExpressionChecker().checkTheExpressionConformity(textView: calculatorScreenTextView, elements: elements)
 
         for error in errorsFound {
             if error == 1 || error == 3 { showTheMessageAlertNumber(1); return }
@@ -49,11 +61,11 @@ class ViewController: UIViewController {
         }
 
         let `operator` = Operator()
-             `operator`.addAnOperator(senderTag: sender.tag, textView: textView)
+             `operator`.addAnOperator(senderTag: sender.tag, textView: calculatorScreenTextView)
         }
 
     @IBAction private func tappedEqualButton(_ sender: UIButton) {
-        let errorsFound = ExpressionChecker().checkTheExpressionConformity(textView: textView, elements: elements)
+        let errorsFound = ExpressionChecker().checkTheExpressionConformity(textView: calculatorScreenTextView, elements: elements)
         if let errorFoundIsTrue = errorsFound.first {
             showTheMessageAlertNumber(errorFoundIsTrue)
             return
@@ -74,11 +86,11 @@ class ViewController: UIViewController {
             guard let operandLeft = operandLeftInElements else { return }
 
             guard let operandLeftConverted = Int(operandLeft), let operandRightConverted = Int(operandRight) else {
-                textView.text = "ERROR"
+                calculatorScreenTextView.text = "ERROR"
                 return
             }
 
-            let calculation = Calculation().performTheOperation(`operator`, operandLeftConverted, operandRightConverted)
+            let calculation = Calculator().performTheOperation(`operator`, operandLeftConverted, operandRightConverted)
 
             guard let result = calculation else { return }
 
@@ -86,11 +98,19 @@ class ViewController: UIViewController {
             operationsToReduce.insert("\(result)", at: 0)
         }
 
-        textView.text.append(" = \(operationsToReduce.first!)")
+        calculatorScreenTextView.text.append(" = \(operationsToReduce.first!)")
     }
 
     // Private methods
     private func showTheMessageAlertNumber(_ number: Int) {
         AlertMessageHandler().showAlertMessage(viewController: self, alertControllerIndex: number)
     }
+}
+
+extension CalculatorViewController: CalculatorDelegate  {
+    
+    func textToComputeDidChange(textToCompute: String) {
+    calculatorScreenTextView.text = textToCompute
+    }
+    
 }

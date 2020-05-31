@@ -1,15 +1,17 @@
 //
-//  Calculation.swift
+//  Calculator.swift
 //  CountOnMe
 //
-//  Created by Sébastien Kothé on 20/05/2020.
+//  Created by Sébastien Kothé on 31/05/2020.
 //  Copyright © 2020 sebastienkothe. All rights reserved.
 //
 
 import Foundation
 
-struct Calculation {
+class Calculator {
 
+    var delegate: CalculatorDelegate?
+    
     // MARK: - Internal methods
     internal func performTheOperation(_ operatorRecovered: String, _ operandLeft: Int, _ operandRight: Int) -> Int? {
         let result: Int?
@@ -25,6 +27,15 @@ struct Calculation {
         }
 
         return result
+    }
+    
+    var textToCompute: String = "" {
+        didSet {
+            delegate?.textToComputeDidChange(textToCompute: textToCompute)
+        }
+    }
+    
+    private func addDigit(_ digit: Int) {
     }
 
 }
