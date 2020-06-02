@@ -73,6 +73,9 @@
                                                 <state key="normal" title="C">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="didTapOnResetButton" destination="eqK-jh-KKu" eventType="touchUpInside" id="xD1-Ja-YhH"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>

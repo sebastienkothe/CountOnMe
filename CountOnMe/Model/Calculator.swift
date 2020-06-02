@@ -27,6 +27,10 @@ class Calculator {
         textToCompute.append(digit)
     }
     
+    func resetOperation() {
+        textToCompute.removeAll()
+    }
+    
     func identifyTheOperatorFromThe(_ senderTag: Int, completionHandler: @escaping (Result<MathOperator, CalculatorError>) -> Void) {
         for (index, operatorName) in MathOperator.allCases.enumerated() where index == senderTag {
             completionHandler(.success(operatorName))

@@ -50,6 +50,10 @@ class CalculatorViewController: UIViewController {
         }
     }
     
+    @IBAction private func didTapOnResetButton() {
+        calculator.resetOperation()
+    }
+    
     func handleError(error: CalculatorError) {
         let alertController = UIAlertController(title: "Error", message: error.title, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Alright!", style: .cancel, handler: nil))
