@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MathOperator {
+enum MathOperator: CaseIterable {
     case plus
     case minus
     case multiplication
