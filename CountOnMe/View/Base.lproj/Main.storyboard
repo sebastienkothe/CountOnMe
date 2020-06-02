@@ -171,6 +171,9 @@
                                                 <state key="normal" title="=">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="didTapOnEqualButton" destination="eqK-jh-KKu" eventType="touchUpInside" id="H02-Br-hSZ"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>

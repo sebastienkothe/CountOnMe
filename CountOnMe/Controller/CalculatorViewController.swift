@@ -21,11 +21,7 @@ class CalculatorViewController: UIViewController {
     // MARK: Private properties
     @IBOutlet weak private var calculatorScreenTextView: UITextView!
     @IBOutlet private var numberButtons: [UIButton]!
-    
-    private var elements: [String] {
-        return calculatorScreenTextView.text.split(separator: " ").map { "\($0)" }
-    }
-    
+
     // MARK: Private methods
     
     // @IBAction
@@ -41,8 +37,8 @@ class CalculatorViewController: UIViewController {
                 do {
                     try self.calculator.addMathOperator(operatorRecovered)
                 } catch {
-                    guard error is CalculatorError else { return }
-                    self.handleError(error: error as! CalculatorError)
+                    guard let errorFound = error as? CalculatorError else { return }
+                    self.handleError(error: errorFound)
                 }
             case .failure(let errorRecovered):
                 self.handleError(error: errorRecovered)
@@ -52,6 +48,16 @@ class CalculatorViewController: UIViewController {
     
     @IBAction private func didTapOnResetButton() {
         calculator.resetOperation()
+    }
+    
+    @IBAction private func didTapOnEqualButton() {
+        do {
+            try calculator.resolveOperation()
+        } catch {
+            guard let errorFound = error as? CalculatorError else { return }
+            handleError(error: errorFound)
+        }
+        
     }
     
     func handleError(error: CalculatorError) {
@@ -80,32 +86,7 @@ class CalculatorViewController: UIViewController {
     //            return
     //        }
     //
-    //        // Create local copy of operations
-    //        var operationsToReduce = elements
-    //
-    //        // Iterate over operations while an operand still here
-    //        while operationsToReduce.count > 1 {
-    //
-    //            let operatorInElements: String? = operationsToReduce[1]
-    //            let operandRightInElements: String? = operationsToReduce[0]
-    //            let operandLeftInElements: String? = operationsToReduce[2]
-    //
-    //            guard let `operator` = operatorInElements else { return }
-    //            guard let operandRight = operandRightInElements else { return }
-    //            guard let operandLeft = operandLeftInElements else { return }
-    //
-    //            guard let operandLeftConverted = Int(operandLeft), let operandRightConverted = Int(operandRight) else {
-    //                calculatorScreenTextView.text = "ERROR"
-    //                return
-    //            }
-    //
-    //            let calculation = Calculator().performTheOperation(`operator`, operandLeftConverted, operandRightConverted)
-    //
-    //            guard let result = calculation else { return }
-    //
-    //            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-    //            operationsToReduce.insert("\(result)", at: 0)
-    //        }
+ 
     //
     //        calculatorScreenTextView.text.append(" = \(operationsToReduce.first!)")
     //    }

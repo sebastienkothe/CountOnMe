@@ -13,6 +13,9 @@ enum CalculatorError: Error {
     case cannotAddAMathOperator
     case cannotAddEqualitySign
     case cannotIdentifyOperator
+    case CannotComputeAnExpressionWithoutMathOperator
+    case cannotCalculateAnExpressionEndingWithMathOperator
+    case cannotModifyAnExpressionContainingAResult
 
     var title: String {
         switch self {
@@ -20,6 +23,9 @@ enum CalculatorError: Error {
         case .cannotAddAMathOperator: return "You cannot add a math operator"
         case .cannotAddEqualitySign: return "You cannot add an equality sign"
         case .cannotIdentifyOperator: return "Operator cannot be identified"
+        case .CannotComputeAnExpressionWithoutMathOperator: return "You cannot compute an expression without math operator"
+        case .cannotCalculateAnExpressionEndingWithMathOperator : return "You cannot calculate an expression ending with math operator"
+        case .cannotModifyAnExpressionContainingAResult: return "You cannot modify an expression containing a result"
         }
     }
 }
