@@ -89,8 +89,8 @@ class Calculator {
             case "-": result = operandLeft - operandRight
             case "*": result = operandLeft * operandRight
             case "/":
-                if operandRight == 0 { textToCompute = errorMessage ; throw CalculatorError.cannotDivideByZero }
-                else { result = operandLeft / operandRight }
+                guard operandRight != 0 else { textToCompute = errorMessage ; throw CalculatorError.cannotDivideByZero }
+                result = operandLeft / operandRight
             default: return }
             
             operationsToReduce = Array(operationsToReduce.dropFirst(3))

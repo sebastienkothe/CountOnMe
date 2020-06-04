@@ -20,7 +20,6 @@ class CalculatorViewController: UIViewController {
     private let calculator = Calculator()
     
     @IBOutlet weak private var calculatorScreenTextView: UITextView!
-    @IBOutlet private var numberButtons: [UIButton]!
     
     // MARK: Private methods
     @IBAction private func didTapOnDigitButton(_ sender: UIButton) {
@@ -31,7 +30,6 @@ class CalculatorViewController: UIViewController {
     @IBAction private func didTapOnMathOperatorButton(sender: UIButton) {
         calculator.identifyTheOperatorFromThe(sender.tag) { (result) in
             guard let operatorRecovered = result else { return }
-            
             do {
                 try self.calculator.addMathOperator(operatorRecovered)
             } catch {
