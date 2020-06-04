@@ -45,7 +45,7 @@ class CalculatorViewController: UIViewController {
     
     @IBAction private func didTapOnEqualButton() {
         do {
-            try calculator.resolveOperation()
+            try calculator.handleTheExpressionToCalculate()
         } catch {
             guard let errorFound = error as? CalculatorError else { return }
             handleError(error: errorFound)

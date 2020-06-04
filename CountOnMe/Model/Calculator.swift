@@ -69,11 +69,7 @@ class Calculator {
         textToCompute.append(mathOperator.symbol)
     }
     
-    fileprivate func isolateNonPriorityOperations(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIndex: Int, numberIndex: Int) {
-        remainingFromCalculation.append(contentsOf: [operationsToReduce[operatorIndex], operationsToReduce[numberIndex]])
-    }
-    
-    func resolveOperation() throws {
+    func handleTheExpressionToCalculate() throws {
         guard lastElementIsNumber && hasEnoughElements && !hasAResult && !worthZero else {
             throw CalculatorError.cannotAddEqualSign }
         
@@ -81,8 +77,16 @@ class Calculator {
         var operationsToReduce = elements
         var remainingFromCalculation: [String] = []
         var result = 0.0
+        var operandLeft = Double()
+        var operandRight = Double()
+        
         // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
+        while operationsToReduce.count > 1 || !remainingFromCalculation.isEmpty {
+            if operationsToReduce.count == 1 && !remainingFromCalculation.isEmpty {
+                operationsToReduce.append(contentsOf: remainingFromCalculation)
+                remainingFromCalculation.removeAll()
+            }
+            
             var operatorRecovered = operationsToReduce[1]
             
             while (operatorRecovered == "+" || operatorRecovered == "-") && (operationsToReduce.contains("*") || operationsToReduce.contains("/")) {
@@ -100,21 +104,37 @@ class Calculator {
                 result = 0.0
             }
             
-            guard let operandLeft = Double(operationsToReduce[0]), let operandRight = Double(operationsToReduce[2]) else { textToCompute = errorMessage ; return }
+            convertOperandsToDouble(&operandLeft, &operandRight, operationsToReduce: operationsToReduce)
             
-            switch operatorRecovered {
-            case "+": result = operandLeft + operandRight
-            case "-": result = operandLeft - operandRight
-            case "*": result = operandLeft * operandRight
-            case "/":
-                guard operandRight != 0 else { textToCompute = errorMessage ; throw CalculatorError.cannotDivideByZero }
-                result = operandLeft / operandRight
-            default: return }
+            do { try performTheCalculation(operatorRecovered: operatorRecovered, operandLeft: operandLeft, operandRight: operandRight, &result) }
+            catch { throw error }
             
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
         
         textToCompute.append(" = \(operationsToReduce.first!)")
+    }
+    
+    // MARK: - Private methods
+    private func performTheCalculation(operatorRecovered: String, operandLeft: Double, operandRight: Double, _ result: inout Double) throws {
+        switch operatorRecovered {
+        case "+": result = operandLeft + operandRight
+        case "-": result = operandLeft - operandRight
+        case "*": result = operandLeft * operandRight
+        case "/":
+            guard operandRight != 0 else { textToCompute = errorMessage ; throw CalculatorError.cannotDivideByZero }
+            result = operandLeft / operandRight
+        default: return }
+    }
+    
+    private func isolateNonPriorityOperations(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIndex: Int, numberIndex: Int) {
+        remainingFromCalculation.append(contentsOf: [operationsToReduce[operatorIndex], operationsToReduce[numberIndex]])
+    }
+    
+    private func convertOperandsToDouble(_ operandLeft: inout Double, _ operandRight: inout Double, operationsToReduce: [String]) {
+        guard let operandLeftConverted = Double(operationsToReduce[0]), let operandRightConverted = Double(operationsToReduce[2]) else { textToCompute = errorMessage ; return }
+        operandLeft = operandLeftConverted
+        operandRight = operandRightConverted
     }
 }
