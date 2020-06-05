@@ -20,7 +20,7 @@ class Calculator {
         return textToCompute.split(separator: " ").map { "\($0)" }
     }
     
-    private var textToCompute: String = "0" {
+    var textToCompute: String = "0" {
         didSet {
             delegate?.textToComputeDidChange(textToCompute: textToCompute)
         }
@@ -65,9 +65,8 @@ class Calculator {
         textToCompute = ""
     }
     
-    
     func addMathOperator(_ mathOperator: MathOperator) throws {
-        if (textToCompute == "" || textToCompute == "0") && mathOperator == .minus { textToCompute.append(mathOperator.symbol); textToCompute.removeFirst(); return }
+        if (textToCompute == "" || textToCompute == "0" || textToCompute.contains("=") || textToCompute.contains("ERROR")) && mathOperator == .minus { textToCompute.removeAll(); textToCompute.append(mathOperator.symbol); return }
         guard lastElementIsNumber && !hasAResult && !worthZero else { throw CalculatorError.cannotAddAMathOperator }
         textToCompute.append(mathOperator.symbol)
     }
@@ -77,17 +76,12 @@ class Calculator {
             throw CalculatorError.cannotAddEqualSign }
         
         // Create local copy of operations
-        var operationsToReduce = elements
-        var remainingFromCalculation: [String] = []
+        var operationsToReduce = elements; var remainingFromCalculation: [String] = []; var operandLeft = 0.0; var operandRight = 0.0; var hasResult = false
         var result: Double = 0.0 {
             didSet {
                 hasResult = true
             }
         }
-        
-        var operandLeft = 0.0
-        var operandRight = 0.0
-        var hasResult = false
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 || !remainingFromCalculation.isEmpty {
@@ -104,18 +98,12 @@ class Calculator {
                 if operationsToReduce[3] == "*" || operationsToReduce[3] == "/" {
                     
                     if operationsToReduce[0].contains("-") {
-                        remainingFromCalculation.append("-"); operationsToReduce[0].removeFirst(); remainingFromCalculation.append(operationsToReduce[0]); operationsToReduce.removeFirst()
-                        operationsToReduce[0] += operationsToReduce[1]
-                        operationsToReduce.remove(at: 1)
+                        handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsPlus: false)
                         break
                     } else {
-                        remainingFromCalculation.append("+")
-                        remainingFromCalculation.append(operationsToReduce[0]); operationsToReduce.removeFirst()
-                        operationsToReduce[0] += operationsToReduce[1]
-                        operationsToReduce.remove(at: 1)
+                        handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsPlus: true)
                         break
                     }
-                    
                 }
                 
                 if hasResult {
@@ -167,5 +155,15 @@ class Calculator {
         guard let operandLeftConverted = Double(operationsToReduce[0]), let operandRightConverted = Double(operationsToReduce[2]) else { textToCompute = errorMessage ; return }
         operandLeft = operandLeftConverted
         operandRight = operandRightConverted
+    }
+    
+    private func handleTheNearestPriorityCalculation(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIsPlus: Bool) {
+        let operatorRequired = operatorIsPlus ? "+" : "-"
+        remainingFromCalculation.append(operatorRequired)
+        if !operatorIsPlus { operationsToReduce[0].removeFirst() }
+        remainingFromCalculation.append(operationsToReduce[0])
+        operationsToReduce.removeFirst()
+        operationsToReduce[0] += operationsToReduce[1]
+        operationsToReduce.remove(at: 1)
     }
 }
