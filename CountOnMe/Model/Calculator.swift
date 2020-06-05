@@ -101,7 +101,8 @@ class Calculator {
             
             while (operatorRecovered == "+" || operatorRecovered == "-") && (operationsToReduce.contains("*") || operationsToReduce.contains("/")) {
                 
-                if operatorRecovered == "-" && (operationsToReduce[3] == "*" || operationsToReduce[3] == "/") {
+                if operationsToReduce[3] == "*" || operationsToReduce[3] == "/" {
+                    
                     if operationsToReduce[0].contains("-") {
                         remainingFromCalculation.append("-"); operationsToReduce[0].removeFirst(); remainingFromCalculation.append(operationsToReduce[0]); operationsToReduce.removeFirst()
                         operationsToReduce[0] += operationsToReduce[1]
@@ -114,6 +115,7 @@ class Calculator {
                         operationsToReduce.remove(at: 1)
                         break
                     }
+                    
                 }
                 
                 if hasResult {
