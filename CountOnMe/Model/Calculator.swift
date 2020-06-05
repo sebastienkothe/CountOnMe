@@ -76,12 +76,19 @@ class Calculator {
         // Create local copy of operations
         var operationsToReduce = elements
         var remainingFromCalculation: [String] = []
-        var result = 0.0
-        var operandLeft = Double()
-        var operandRight = Double()
+        var result: Double = 0.0 {
+            didSet {
+                hasResult = true
+            }
+        }
+        
+        var operandLeft = 0.0
+        var operandRight = 0.0
+        var hasResult = false
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 || !remainingFromCalculation.isEmpty {
+            
             if operationsToReduce.count == 1 && !remainingFromCalculation.isEmpty {
                 operationsToReduce.append(contentsOf: remainingFromCalculation)
                 remainingFromCalculation.removeAll()
@@ -91,7 +98,22 @@ class Calculator {
             
             while (operatorRecovered == "+" || operatorRecovered == "-") && (operationsToReduce.contains("*") || operationsToReduce.contains("/")) {
                 
-                if result > 0 {
+                if operatorRecovered == "-" && (operationsToReduce[3] == "*" || operationsToReduce[3] == "/") {
+                    if operationsToReduce[0].contains("-") {
+                        remainingFromCalculation.append("-"); operationsToReduce[0].removeFirst(); remainingFromCalculation.append(operationsToReduce[0]); operationsToReduce.removeFirst()
+                        operationsToReduce[0] += operationsToReduce[1]
+                        operationsToReduce.remove(at: 1)
+                        break
+                    } else {
+                        remainingFromCalculation.append("+")
+                        remainingFromCalculation.append(operationsToReduce[0]); operationsToReduce.removeFirst()
+                        operationsToReduce[0] += operationsToReduce[1]
+                        operationsToReduce.remove(at: 1)
+                        break
+                    }
+                }
+                
+                if hasResult {
                     isolateNonPriorityOperations(&remainingFromCalculation, &operationsToReduce, operatorIndex: 1, numberIndex: 2)
                     guard let resultToSave = operationsToReduce.first else { return }
                     operationsToReduce = Array(operationsToReduce.dropFirst(3))
@@ -101,8 +123,11 @@ class Calculator {
                     operationsToReduce = Array(operationsToReduce.dropFirst(2))
                 }
                 operatorRecovered = operationsToReduce[1]
-                result = 0.0
+                hasResult = false
             }
+            
+            operatorRecovered = operationsToReduce[1]
+            
             
             convertOperandsToDouble(&operandLeft, &operandRight, operationsToReduce: operationsToReduce)
             
@@ -126,6 +151,7 @@ class Calculator {
             guard operandRight != 0 else { textToCompute = errorMessage ; throw CalculatorError.cannotDivideByZero }
             result = operandLeft / operandRight
         default: return }
+        
     }
     
     private func isolateNonPriorityOperations(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIndex: Int, numberIndex: Int) {
