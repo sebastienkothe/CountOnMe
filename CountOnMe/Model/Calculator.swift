@@ -49,8 +49,10 @@ class Calculator {
     
     // MARK: - Internal methods
     func addDigit(_ digit: String) {
+        var digitRecovered = digit
+        if textToCompute.trimmingCharacters(in: .whitespaces) == "-" { digitRecovered = "-" + digitRecovered; textToCompute.removeAll()}
         if worthZero || hasAResult || hasAErrorMessage { resetOperation() }
-        textToCompute.append(digit)
+        textToCompute.append(digitRecovered)
     }
     
     func identifyTheOperatorFromThe(_ senderTag: Int, completionHandler: (MathOperator?) -> Void) {
@@ -65,6 +67,7 @@ class Calculator {
     
     
     func addMathOperator(_ mathOperator: MathOperator) throws {
+        if (textToCompute == "" || textToCompute == "0") && mathOperator == .minus { textToCompute.append(mathOperator.symbol); textToCompute.removeFirst(); return }
         guard lastElementIsNumber && !hasAResult && !worthZero else { throw CalculatorError.cannotAddAMathOperator }
         textToCompute.append(mathOperator.symbol)
     }
