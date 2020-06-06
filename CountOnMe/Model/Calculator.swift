@@ -75,17 +75,12 @@ class Calculator {
         guard lastElementIsNumber && hasEnoughElements && !hasAResult && !worthZero else {
             throw CalculatorError.cannotAddEqualSign }
         
-        // Create local copy of operations
         var operationsToReduce = elements; var remainingFromCalculation: [String] = []; var operandLeft = 0.0; var operandRight = 0.0; var hasResult = false
-        var result: Double = 0.0 {
-            didSet {
-                hasResult = true
-            }
-        }
-        
+        var result: Double = 0.0 { didSet { hasResult = true } }
+
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 || !remainingFromCalculation.isEmpty {
-            
+
             if operationsToReduce.count == 1 && !remainingFromCalculation.isEmpty {
                 operationsToReduce.append(contentsOf: remainingFromCalculation)
                 remainingFromCalculation.removeAll()
@@ -96,24 +91,22 @@ class Calculator {
             while (operatorRecovered == "+" || operatorRecovered == "-") && (operationsToReduce.contains("*") || operationsToReduce.contains("/")) {
                 
                 if operationsToReduce[3] == "*" || operationsToReduce[3] == "/" {
-                    
                     if operationsToReduce[0].contains("-") {
                         handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsPlus: false)
-                        break
                     } else {
                         handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsPlus: true)
-                        break
                     }
+                    break
                 }
                 
                 if hasResult {
                     isolateNonPriorityOperations(&remainingFromCalculation, &operationsToReduce, operatorIndex: 1, numberIndex: 2)
                     guard let resultToSave = operationsToReduce.first else { return }
-                    operationsToReduce = Array(operationsToReduce.dropFirst(3))
+                    excludeItems(&operationsToReduce, howManyItems: 3)
                     operationsToReduce.insert(resultToSave, at: 0)
                 } else {
                     isolateNonPriorityOperations(&remainingFromCalculation, &operationsToReduce, operatorIndex: 1, numberIndex: 0)
-                    operationsToReduce = Array(operationsToReduce.dropFirst(2))
+                    excludeItems(&operationsToReduce, howManyItems: 2)
                 }
                 operatorRecovered = operationsToReduce[1]
                 hasResult = false
@@ -127,7 +120,7 @@ class Calculator {
             do { try performTheCalculation(operatorRecovered: operatorRecovered, operandLeft: operandLeft, operandRight: operandRight, &result) }
             catch { throw error }
             
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
+            excludeItems(&operationsToReduce, howManyItems: 3)
             operationsToReduce.insert("\(result)", at: 0)
         }
         
@@ -165,5 +158,9 @@ class Calculator {
         operationsToReduce.removeFirst()
         operationsToReduce[0] += operationsToReduce[1]
         operationsToReduce.remove(at: 1)
+    }
+    
+    private func excludeItems(_ operationsToReduce: inout [String], howManyItems: Int) {
+        operationsToReduce = Array(operationsToReduce.dropFirst(howManyItems))
     }
 }
