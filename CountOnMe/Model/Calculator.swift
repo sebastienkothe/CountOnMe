@@ -5,6 +5,8 @@
 //  Created by Sébastien Kothé on 31/05/2020.
 //  Copyright © 2020 sebastienkothe. All rights reserved.
 //
+// swiftlint:disable trailing_whitespace
+// swiftlint:disable line_length
 
 import Foundation
 
@@ -20,13 +22,13 @@ class Calculator {
         return textToCompute.split(separator: " ").map { "\($0)" }
     }
     
-    var textToCompute: String = "0" {
+    private var textToCompute: String = "0" {
         didSet {
             delegate?.textToComputeDidChange(textToCompute: textToCompute)
         }
     }
     
-    private var lastElementIsNumber: Bool  {
+    private var lastElementIsNumber: Bool {
         guard let lastElementFromTextToCompute = textToCompute.last else { return false }
         return lastElementFromTextToCompute.isNumber
     }
@@ -114,10 +116,12 @@ class Calculator {
             
             operatorRecovered = operationsToReduce[1]
             
-            
             convertOperandsToDouble(&operandLeft, &operandRight, operationsToReduce: operationsToReduce)
             
-            do { try performTheCalculation(operatorRecovered: operatorRecovered, operandLeft: operandLeft, operandRight: operandRight, &result) }
+            do {
+                try performTheCalculation(
+                    operatorRecovered: operatorRecovered,
+                    operandLeft: operandLeft, operandRight: operandRight, &result) }
             catch { throw error }
             
             excludeItems(&operationsToReduce, howManyItems: 3)
@@ -141,11 +145,16 @@ class Calculator {
     }
     
     private func isolateNonPriorityOperations(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIndex: Int, numberIndex: Int) {
+        
         remainingFromCalculation.append(contentsOf: [operationsToReduce[operatorIndex], operationsToReduce[numberIndex]])
     }
     
     private func convertOperandsToDouble(_ operandLeft: inout Double, _ operandRight: inout Double, operationsToReduce: [String]) {
-        guard let operandLeftConverted = Double(operationsToReduce[0]), let operandRightConverted = Double(operationsToReduce[2]) else { textToCompute = errorMessage ; return }
+        guard
+            let operandLeftConverted = Double(operationsToReduce[0]),
+            let operandRightConverted = Double(operationsToReduce[2])
+            else { textToCompute = errorMessage ; return }
+        
         operandLeft = operandLeftConverted
         operandRight = operandRightConverted
     }

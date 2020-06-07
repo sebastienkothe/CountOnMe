@@ -13,7 +13,7 @@ enum MathOperator: CaseIterable {
     case minus
     case multiplication
     case division
-    
+
     var symbol: String {
         switch self {
         case .plus: return " + "
