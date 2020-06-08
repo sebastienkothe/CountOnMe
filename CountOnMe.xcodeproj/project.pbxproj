@@ -94,7 +94,6 @@
 				36DB8EF7246EE2FE00535D2C /* View */,
 				36DB8EF8246EE30400535D2C /* Controller */,
 				36DB8EF9246EE34900535D2C /* Supporting_Files */,
-				360DA3D2248D035A001C8321 /* CalculatorDelegateMock.swift */,
 			);
 			path = CountOnMe;
 			sourceTree = "<group>";
@@ -158,6 +157,7 @@
 				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
 				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
 				1FA43BDE224E569A00F565CB /* Info.plist */,
+				360DA3D2248D035A001C8321 /* CalculatorDelegateMock.swift */,
 			);
 			path = Supporting_Files;
 			sourceTree = "<group>";

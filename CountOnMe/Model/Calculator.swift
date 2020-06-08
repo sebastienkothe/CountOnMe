@@ -73,46 +73,36 @@ class Calculator {
         textToCompute.append(mathOperator.symbol)
     }
     
+    private func addTheRestOfTheCalculation(_ operationsToReduce: inout [String], _ remainingFromCalculation: inout [String]) {
+        if operationsToReduce.count == 1 && !remainingFromCalculation.isEmpty {
+            operationsToReduce.append(contentsOf: remainingFromCalculation)
+            remainingFromCalculation.removeAll()
+        }
+    }
+    
+    private func handleThePriorityOperations(_ operationsToReduce: inout [String], _ remainingFromCalculation: inout [String]) {
+        if operationsToReduce.count > 3 && operationsToReduce[3].isPriorityOperator {
+            let numberIsNegative = operationsToReduce[0].isNegativeNumber
+            
+             handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsNegative: numberIsNegative)
+        }
+    }
+    
     func handleTheExpressionToCalculate() throws {
         guard lastElementIsNumber && hasEnoughElements && !hasAResult && !worthZero else {
             throw CalculatorError.cannotAddEqualSign }
         
         var operationsToReduce = elements; var remainingFromCalculation: [String] = []; var operandLeft = 0.0; var operandRight = 0.0; var hasResult = false
         var result: Double = 0.0 { didSet { hasResult = true } }
-
+        
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 || !remainingFromCalculation.isEmpty {
-
-            if operationsToReduce.count == 1 && !remainingFromCalculation.isEmpty {
-                operationsToReduce.append(contentsOf: remainingFromCalculation)
-                remainingFromCalculation.removeAll()
-            }
+            
+            addTheRestOfTheCalculation(&operationsToReduce, &remainingFromCalculation)
             
             var operatorRecovered = operationsToReduce[1]
             
-            while (operatorRecovered == "+" || operatorRecovered == "-") && (operationsToReduce.contains("*") || operationsToReduce.contains("/")) {
-                
-                if operationsToReduce[3] == "*" || operationsToReduce[3] == "/" {
-                    if operationsToReduce[0].contains("-") {
-                        handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsPlus: false)
-                    } else {
-                        handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsPlus: true)
-                    }
-                    break
-                }
-                
-                if hasResult {
-                    isolateNonPriorityOperations(&remainingFromCalculation, &operationsToReduce, operatorIndex: 1, numberIndex: 2)
-                    guard let resultToSave = operationsToReduce.first else { return }
-                    excludeItems(&operationsToReduce, howManyItems: 3)
-                    operationsToReduce.insert(resultToSave, at: 0)
-                } else {
-                    isolateNonPriorityOperations(&remainingFromCalculation, &operationsToReduce, operatorIndex: 1, numberIndex: 0)
-                    excludeItems(&operationsToReduce, howManyItems: 2)
-                }
-                operatorRecovered = operationsToReduce[1]
-                hasResult = false
-            }
+            handleThePriorityOperations(&operationsToReduce, &remainingFromCalculation)
             
             operatorRecovered = operationsToReduce[1]
             
@@ -141,12 +131,13 @@ class Calculator {
             guard operandRight != 0 else { textToCompute = errorMessage ; throw CalculatorError.cannotDivideByZero }
             result = operandLeft / operandRight
         default: return }
-        
     }
     
-    private func isolateNonPriorityOperations(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIndex: Int, numberIndex: Int) {
-        
-        remainingFromCalculation.append(contentsOf: [operationsToReduce[operatorIndex], operationsToReduce[numberIndex]])
+    private func convertOperatorToMathOperator(_ operatorRecovered: String) -> MathOperator? {
+        for operatorCase in MathOperator.allCases where operatorCase.symbol == operatorRecovered {
+            return operatorCase
+        }
+        return nil
     }
     
     private func convertOperandsToDouble(_ operandLeft: inout Double, _ operandRight: inout Double, operationsToReduce: [String]) {
@@ -159,10 +150,10 @@ class Calculator {
         operandRight = operandRightConverted
     }
     
-    private func handleTheNearestPriorityCalculation(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIsPlus: Bool) {
-        let operatorRequired = operatorIsPlus ? "+" : "-"
+    private func handleTheNearestPriorityCalculation(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIsNegative: Bool) {
+        let operatorRequired = operatorIsNegative ? "-" : "+"
         remainingFromCalculation.append(operatorRequired)
-        if !operatorIsPlus { operationsToReduce[0].removeFirst() }
+        if operatorIsNegative { operationsToReduce[0].removeFirst() }
         remainingFromCalculation.append(operationsToReduce[0])
         operationsToReduce.removeFirst()
         operationsToReduce[0] += operationsToReduce[1]
@@ -171,5 +162,15 @@ class Calculator {
     
     private func excludeItems(_ operationsToReduce: inout [String], howManyItems: Int) {
         operationsToReduce = Array(operationsToReduce.dropFirst(howManyItems))
+    }
+}
+
+extension String {
+    var isPriorityOperator: Bool {
+        self == "*" || self == "/"
+    }
+    
+    var isNegativeNumber: Bool {
+        self.contains("-")
     }
 }
