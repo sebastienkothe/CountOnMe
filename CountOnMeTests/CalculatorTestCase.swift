@@ -29,12 +29,18 @@ class CalculatorTestCase: XCTestCase {
     var calculatorDelegateMock: CalculatorDelegateMock!
     var textToComputeCases: [String]!
     var operatorSign: MathOperator!
+    var cannotDivideByZeroCase: CalculatorError!
+    var cannotAddEqualSignCase : CalculatorError!
+    var cannotAddAMathOperatorCase : CalculatorError!
     
     override func setUp() {
         calculator = Calculator()
         calculatorDelegateMock = CalculatorDelegateMock()
         calculator.delegate = calculatorDelegateMock
         textToComputeCases = ["", "0", "=", "ERROR"]
+        cannotDivideByZeroCase = .cannotDivideByZero
+        cannotAddEqualSignCase = .cannotAddEqualSign
+        cannotAddAMathOperatorCase = .cannotAddAMathOperator
     }
     
     func testGivenExpressionsAreContainedInTheDictionary_WhenTryingToCalculateThem_ThenResultShouldBeValueOfKey() {
@@ -52,8 +58,8 @@ class CalculatorTestCase: XCTestCase {
             "-9 + 4 + 5 + 6 + 7 + 4 + 2 / 1 + 4 + 3 + 3 + 5 * 2": " = 39.0",
             "9 + 4 - 5 + 6 + 7 + 4 - 2 / 1 + 4 - 3 + 3 + 5 * 2": " = 37.0",
             "6 * 8 - 3 / 1 + 8 * 9 - 5 / 4 * 5": " = 110.75",
-            "-9 - 9 - 9 - 9 * 4": " = -63.0"
-            
+            "-9 - 9 - 9 - 9 * 4": " = -63.0",
+            "-1 + 2 - 1 + 4 / 2 - 3 + 6 + 5 / 2": " = 7.5"
         ]
         
         for expression in expressionToCalculateWithResult {
@@ -105,10 +111,6 @@ class CalculatorTestCase: XCTestCase {
     
     func testGivenTextToComputeIsWorthErrorCasesKey_WhenTryingToCheckIt_ThenMethodShouldReturnAnError() {
         
-        let cannotDivideByZeroCase = CalculatorError.cannotDivideByZero
-        let cannotAddEqualSignCase = CalculatorError.cannotAddEqualSign
-        let cannotAddAMathOperatorCase = CalculatorError.cannotAddAMathOperator
-        
         let errorCases = ["1 / 0": cannotDivideByZeroCase, "1 + 2 = 3": cannotAddEqualSignCase, "1 +": cannotAddAMathOperatorCase]
         
         for (expression, errorCase) in errorCases {
@@ -119,10 +121,27 @@ class CalculatorTestCase: XCTestCase {
                     try calculator.addMathOperator(MathOperator.multiplication)
                 }
             } catch {
-                XCTAssertEqual(error as! CalculatorError, errorCase)
+                XCTAssertEqual(error as? CalculatorError, errorCase)
             }
             calculator.resetOperation()
         }
+    }
+    
+    func testGivenCalculatorErrorContainsThreeCases_WhenTryingToAccessEachCase_ThenTitleShouldReturnTHeCorrectString() {
+        let calculatorErrorCases = [cannotDivideByZeroCase, cannotAddEqualSignCase, cannotAddAMathOperatorCase]
+        
+        for calculatorErrorCase in calculatorErrorCases {
+            XCTAssertEqual(calculatorErrorCase?.title, calculatorErrorCase?.title)
+        }
+    }
+    
+    func testGivenTextToComputeContainsNumberImpossibleToConvertToDouble_WhenTryingToConvertIt_ThenTextToComputeShouldContainErrorMesssage() {
+        
+        calculator.addDigit("9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 * 9")
+        try! calculator.handleTheExpressionToCalculate()
+        XCTAssertEqual(calculatorDelegateMock.textToCompute, "ERROR")
+        calculator.addDigit("1")
+        XCTAssertEqual(calculatorDelegateMock.textToCompute, "1")
     }
 }
 

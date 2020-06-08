@@ -13,7 +13,7 @@ enum CalculatorError: Error {
     case cannotDivideByZero
     case cannotAddAMathOperator
     case cannotAddEqualSign
-
+    
     var title: String {
         switch self {
         case .cannotDivideByZero: return "Cannot divide by zero"

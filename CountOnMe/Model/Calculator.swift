@@ -74,51 +74,50 @@ class Calculator {
     }
     
     private func addTheRestOfTheCalculation(_ operationsToReduce: inout [String], _ remainingFromCalculation: inout [String]) {
-        if operationsToReduce.count == 1 && !remainingFromCalculation.isEmpty {
-            operationsToReduce.append(contentsOf: remainingFromCalculation)
-            remainingFromCalculation.removeAll()
-        }
+        operationsToReduce.append(contentsOf: remainingFromCalculation)
+        remainingFromCalculation.removeAll()
     }
     
     private func handleThePriorityOperations(_ operationsToReduce: inout [String], _ remainingFromCalculation: inout [String]) {
-        if operationsToReduce.count > 3 && operationsToReduce[3].isPriorityOperator {
-            let numberIsNegative = operationsToReduce[0].isNegativeNumber
-            
-             handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsNegative: numberIsNegative)
-        }
+        let numberIsNegative = operationsToReduce[0].isNegativeNumber
+        handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsNegative: numberIsNegative)
     }
     
     func handleTheExpressionToCalculate() throws {
         guard lastElementIsNumber && hasEnoughElements && !hasAResult && !worthZero else {
             throw CalculatorError.cannotAddEqualSign }
         
-        var operationsToReduce = elements; var remainingFromCalculation: [String] = []; var operandLeft = 0.0; var operandRight = 0.0; var hasResult = false
-        var result: Double = 0.0 { didSet { hasResult = true } }
+        var operationsToReduce = elements; var remainingFromCalculation: [String] = []; var operandLeft = 0.0; var operandRight = 0.0; var result: Double = 0.0
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 || !remainingFromCalculation.isEmpty {
             
-            addTheRestOfTheCalculation(&operationsToReduce, &remainingFromCalculation)
+            if operationsToReduce.count == 1 && !remainingFromCalculation.isEmpty {
+                addTheRestOfTheCalculation(&operationsToReduce, &remainingFromCalculation)
+            }
             
             var operatorRecovered = operationsToReduce[1]
             
-            handleThePriorityOperations(&operationsToReduce, &remainingFromCalculation)
+            if operationsToReduce.count > 3 && operationsToReduce[3].isPriorityOperator {
+                handleThePriorityOperations(&operationsToReduce, &remainingFromCalculation)
+            }
             
             operatorRecovered = operationsToReduce[1]
             
             convertOperandsToDouble(&operandLeft, &operandRight, operationsToReduce: operationsToReduce)
             
+            if textToCompute == errorMessage { return }
+            
             do {
-                try performTheCalculation(
-                    operatorRecovered: operatorRecovered,
-                    operandLeft: operandLeft, operandRight: operandRight, &result) }
+                try performTheCalculation(operatorRecovered: operatorRecovered, operandLeft: operandLeft, operandRight: operandRight, &result)
+            }
             catch { throw error }
             
             excludeItems(&operationsToReduce, howManyItems: 3)
             operationsToReduce.insert("\(result)", at: 0)
         }
         
-        textToCompute.append(" = \(operationsToReduce.first!)")
+        textToCompute.append(" = \(operationsToReduce[0])")
     }
     
     // MARK: - Private methods
@@ -132,19 +131,9 @@ class Calculator {
             result = operandLeft / operandRight
         default: return }
     }
-    
-    private func convertOperatorToMathOperator(_ operatorRecovered: String) -> MathOperator? {
-        for operatorCase in MathOperator.allCases where operatorCase.symbol == operatorRecovered {
-            return operatorCase
-        }
-        return nil
-    }
-    
+
     private func convertOperandsToDouble(_ operandLeft: inout Double, _ operandRight: inout Double, operationsToReduce: [String]) {
-        guard
-            let operandLeftConverted = Double(operationsToReduce[0]),
-            let operandRightConverted = Double(operationsToReduce[2])
-            else { textToCompute = errorMessage ; return }
+        guard let operandLeftConverted = Double(operationsToReduce[0]), let operandRightConverted = Double(operationsToReduce[2]) else { textToCompute.removeAll(); textToCompute = errorMessage ; return }
         
         operandLeft = operandLeftConverted
         operandRight = operandRightConverted
