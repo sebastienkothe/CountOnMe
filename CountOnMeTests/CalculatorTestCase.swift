@@ -37,7 +37,7 @@ class CalculatorTestCase: XCTestCase {
         calculator = Calculator()
         calculatorDelegateMock = CalculatorDelegateMock()
         calculator.delegate = calculatorDelegateMock
-        textToComputeCases = ["0", "=", "ERROR"]
+        textToComputeCases = ["0", "=", "ERROR", ""]
         cannotDivideByZeroCase = .cannotDivideByZero
         cannotAddEqualSignCase = .cannotAddEqualSign
         cannotAddAMathOperatorCase = .cannotAddAMathOperator
@@ -60,7 +60,10 @@ class CalculatorTestCase: XCTestCase {
             "6 * 8 - 3 / 1 + 8 * 9 - 5 / 4 * 5": " = 110.75",
             "-9 - 9 - 9 - 9 * 4": " = -63.0",
             "-1 + 2 - 1 + 4 / 2 - 3 + 6 + 5 / 2": " = 7.5",
-            "-2 + 3 - 4 - 6 - 4 * 3": " = -21.0"
+            "-2 + 3 - 4 - 6 - 4 * 3": " = -21.0",
+            "222 + 0": " = 222.0",
+            "222 - 0": " = 222.0",
+            "222 * 0": " = 0.0"
         ]
         
         for expression in expressionToCalculateWithResult {
@@ -78,7 +81,7 @@ class CalculatorTestCase: XCTestCase {
         for textToComputeCase in textToComputeCases {
             calculator.addDigit(textToComputeCase)
             try! calculator.addMathOperator(operatorSign)
-            XCTAssertEqual(calculatorDelegateMock.textToCompute, " - ")
+            XCTAssertEqual(calculatorDelegateMock.textToCompute, "-")
             calculator.cleanTextToCompute()
         }
     }
@@ -143,6 +146,32 @@ class CalculatorTestCase: XCTestCase {
         XCTAssertEqual(calculatorDelegateMock.textToCompute, "ERROR")
         calculator.addDigit("1")
         XCTAssertEqual(calculatorDelegateMock.textToCompute, "1")
+    }
+    
+    func testGivenTextToComputeIsEmpty_WhenTryingToAddAnMinusOperator_ThenTextToComputeShouldContainMinusOperator() {
+        XCTAssertNoThrow(try! calculator.addMathOperator(MathOperator.minus))
+        XCTAssertEqual(calculatorDelegateMock.textToCompute, "-")
+    }
+    
+    func testGivenTextToComputeIsReset_WhenTryingToAddAnMinusOperator_ThenTextToComputeShouldContainMinusOperator() {
+        calculator.addDigit("1 + 1")
+        try! calculator.handleTheExpressionToCalculate()
+        calculator.cleanTextToCompute()
+        
+        XCTAssertNoThrow(try! calculator.addMathOperator(MathOperator.minus))
+        XCTAssertEqual(calculatorDelegateMock.textToCompute, "-")
+    }
+    
+    func testGivenTextToComputeIsWorth1AndPlus0_WhenTryingToAddAZero_Then0ShouldNotBeAdded() {
+        calculator.addDigit("1 + 0")
+        calculator.addDigit("0")
+        XCTAssertNotEqual(calculatorDelegateMock.textToCompute, "1 + 00")
+    }
+    
+    func testGivenTextToComputeIsWorth1_WhenTryingToAddAZero_Then0ShouldBeAdded() {
+        calculator.addDigit("1")
+        calculator.addDigit("0")
+        XCTAssertEqual(calculatorDelegateMock.textToCompute, "10")
     }
 }
 

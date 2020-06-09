@@ -17,6 +17,7 @@ class Calculator {
     
     // MARK: - Private properties
     private let errorMessage = "ERROR"
+    private let equalSign = "="
     
     private var elements: [String] {
         return textToCompute.split(separator: " ").map { "\($0)" }
@@ -38,11 +39,11 @@ class Calculator {
     }
     
     private var hasAResult: Bool {
-        textToCompute.contains("=")
+        textToCompute.contains(equalSign)
     }
     
     private var worthZero: Bool {
-        textToCompute == "0"
+        textToCompute.isNull
     }
     
     private var hasAErrorMessage: Bool {
@@ -50,13 +51,19 @@ class Calculator {
     }
     
     private var isReadyToNewCalculation: Bool {
-        worthZero || hasAResult || hasAErrorMessage
+        worthZero || hasAResult || hasAErrorMessage || textToCompute.isEmpty
     }
     
     // MARK: - Internal methods
     func addDigit(_ digit: String) {
         var digitRecovered = digit
-        if textToCompute.trimmingCharacters(in: .whitespaces) == "-" { digitRecovered = "-" + digitRecovered; textToCompute.removeAll()}
+        
+        if digitRecovered.isNull {
+            guard let lastElement = elements.last, let firstElement = elements.first else { return }
+            guard lastElement.isAnOperator || (!firstElement.isNull && !lastElement.isNull) else { return }
+        }
+        
+        if textToCompute == MathOperator.minus.symbol { digitRecovered = MathOperator.minus.symbol + digitRecovered; textToCompute.removeAll()}
         if isReadyToNewCalculation { cleanTextToCompute() }
         textToCompute.append(digitRecovered)
     }
@@ -72,9 +79,9 @@ class Calculator {
     }
     
     func addMathOperator(_ mathOperator: MathOperator) throws {
-        if isReadyToNewCalculation && mathOperator == .minus { cleanTextToCompute(); textToCompute += mathOperator.symbol; return }
+        if isReadyToNewCalculation && mathOperator == .minus { textToCompute = mathOperator.symbol; return }
         guard lastElementIsNumber && !hasAResult && !worthZero else { throw CalculatorError.cannotAddAMathOperator }
-        textToCompute.append(mathOperator.symbol)
+        textToCompute.append(" \(mathOperator.symbol) ")
     }
     
     private func addTheRestOfTheCalculation(_ operationsToReduce: inout [String], _ remainingFromCalculation: inout [String]) {
@@ -83,7 +90,7 @@ class Calculator {
     }
     
     private func handleThePriorityOperations(_ operationsToReduce: inout [String], _ remainingFromCalculation: inout [String]) {
-        let numberIsNegative = operationsToReduce[0].isNegativeNumber
+        let numberIsNegative = operationsToReduce[0] == MathOperator.minus.symbol
         handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsNegative: numberIsNegative)
     }
     
@@ -117,22 +124,22 @@ class Calculator {
             excludeItems(&operationsToReduce, howManyItems: 3)
             operationsToReduce.insert("\(result)", at: 0)
         }
-
-        if !operationsToReduce[0].isEmpty { textToCompute += " = \(operationsToReduce[0])" }
+        
+        if !operationsToReduce[0].isEmpty { textToCompute += " \(equalSign) \(operationsToReduce[0])" }
     }
     
     // MARK: - Private methods
     private func performTheCalculation(operatorRecovered: String, operandLeft: Double, operandRight: Double, _ result: inout Double) throws {
         switch operatorRecovered {
-        case "+": result = operandLeft + operandRight
-        case "-": result = operandLeft - operandRight
-        case "*": result = operandLeft * operandRight
-        case "/":
-            guard operandRight != 0 else { textToCompute = errorMessage ; throw CalculatorError.cannotDivideByZero }
+        case MathOperator.plus.symbol: result = operandLeft + operandRight
+        case MathOperator.minus.symbol: result = operandLeft - operandRight
+        case MathOperator.multiplication.symbol: result = operandLeft * operandRight
+        case MathOperator.division.symbol:
+            guard !operandRight.isZero else { textToCompute = errorMessage ; throw CalculatorError.cannotDivideByZero }
             result = operandLeft / operandRight
         default: return }
     }
-
+    
     private func convertOperandsToDouble(_ operandLeft: inout Double, _ operandRight: inout Double, operationsToReduce: [String]) {
         guard let operandLeftConverted = Double(operationsToReduce[0]), let operandRightConverted = Double(operationsToReduce[2]) else { cleanTextToCompute(); textToCompute = errorMessage ; return }
         
@@ -142,7 +149,7 @@ class Calculator {
     
     private func handleTheNearestPriorityCalculation(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIsNegative: Bool) {
         
-        let operatorRequired = operatorIsNegative ? "-" : "+"
+        let operatorRequired = operatorIsNegative ? MathOperator.minus.symbol : MathOperator.plus.symbol
         remainingFromCalculation.append(operatorRequired)
         
         if operatorIsNegative { operationsToReduce[0].removeFirst() }
@@ -159,18 +166,19 @@ class Calculator {
 }
 
 extension String {
+    
     var isPriorityOperator: Bool {
         self == "*" || self == "/"
     }
-    
-    var isNegativeNumber: Bool {
-        self.contains("-")
-    }
-    
+        
     var isAnOperator: Bool {
         for operatorSign in MathOperator.allCases where self == operatorSign.symbol.trimmingCharacters(in: .whitespaces) {
             return true
         }
         return false
+    }
+    
+    var isNull: Bool {
+        self == "0"
     }
 }

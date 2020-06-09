@@ -12,8 +12,8 @@
 		1FA43BD8224E569900F565CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD6224E569900F565CB /* Main.storyboard */; };
 		1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD9224E569A00F565CB /* Assets.xcassets */; };
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
-		360DA3D6248D045B001C8321 /* CalculatorDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360DA3D2248D035A001C8321 /* CalculatorDelegateMock.swift */; };
 		365F388D248AD480005B52D0 /* CalculatorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365F388C248AD480005B52D0 /* CalculatorTestCase.swift */; };
+		3660F037248FDC110055C56E /* CalculatorDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360DA3D2248D035A001C8321 /* CalculatorDelegateMock.swift */; };
 		3671F5E2247560E900310755 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3671F5E1247560E900310755 /* Calculator.swift */; };
 		36A601CD2483D1CF00D9AA33 /* CalculatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A601CC2483D1CF00D9AA33 /* CalculatorDelegate.swift */; };
 		36A601CF2483D67700D9AA33 /* CalculatorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A601CE2483D67700D9AA33 /* CalculatorError.swift */; };
@@ -265,7 +265,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				360DA3D6248D045B001C8321 /* CalculatorDelegateMock.swift in Sources */,
+				3660F037248FDC110055C56E /* CalculatorDelegateMock.swift in Sources */,
 				36A601CD2483D1CF00D9AA33 /* CalculatorDelegate.swift in Sources */,
 				1FA43BD5224E569900F565CB /* CalculatorViewController.swift in Sources */,
 				36A601CF2483D67700D9AA33 /* CalculatorError.swift in Sources */,

@@ -16,10 +16,10 @@ enum MathOperator: CaseIterable {
 
     var symbol: String {
         switch self {
-        case .plus: return " + "
-        case .minus: return " - "
-        case .multiplication: return " * "
-        case .division: return " / "
+        case .plus: return "+"
+        case .minus: return "-"
+        case .multiplication: return "*"
+        case .division: return "/"
         }
     }
 }
