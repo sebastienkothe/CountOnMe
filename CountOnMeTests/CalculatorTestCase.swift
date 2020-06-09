@@ -37,7 +37,7 @@ class CalculatorTestCase: XCTestCase {
         calculator = Calculator()
         calculatorDelegateMock = CalculatorDelegateMock()
         calculator.delegate = calculatorDelegateMock
-        textToComputeCases = ["", "0", "=", "ERROR"]
+        textToComputeCases = ["0", "=", "ERROR"]
         cannotDivideByZeroCase = .cannotDivideByZero
         cannotAddEqualSignCase = .cannotAddEqualSign
         cannotAddAMathOperatorCase = .cannotAddAMathOperator
@@ -59,7 +59,8 @@ class CalculatorTestCase: XCTestCase {
             "9 + 4 - 5 + 6 + 7 + 4 - 2 / 1 + 4 - 3 + 3 + 5 * 2": " = 37.0",
             "6 * 8 - 3 / 1 + 8 * 9 - 5 / 4 * 5": " = 110.75",
             "-9 - 9 - 9 - 9 * 4": " = -63.0",
-            "-1 + 2 - 1 + 4 / 2 - 3 + 6 + 5 / 2": " = 7.5"
+            "-1 + 2 - 1 + 4 / 2 - 3 + 6 + 5 / 2": " = 7.5",
+            "-2 + 3 - 4 - 6 - 4 * 3": " = -21.0"
         ]
         
         for expression in expressionToCalculateWithResult {
@@ -78,7 +79,7 @@ class CalculatorTestCase: XCTestCase {
             calculator.addDigit(textToComputeCase)
             try! calculator.addMathOperator(operatorSign)
             XCTAssertEqual(calculatorDelegateMock.textToCompute, " - ")
-            calculator.resetOperation()
+            calculator.cleanTextToCompute()
         }
     }
     
@@ -89,7 +90,7 @@ class CalculatorTestCase: XCTestCase {
         for textToComputeCase in textToComputeCases {
             calculator.addDigit(textToComputeCase)
             XCTAssertThrowsError(try calculator.addMathOperator(operatorSign))
-            calculator.resetOperation()
+            calculator.cleanTextToCompute()
         }
     }
     
@@ -123,7 +124,7 @@ class CalculatorTestCase: XCTestCase {
             } catch {
                 XCTAssertEqual(error as? CalculatorError, errorCase)
             }
-            calculator.resetOperation()
+            calculator.cleanTextToCompute()
         }
     }
     

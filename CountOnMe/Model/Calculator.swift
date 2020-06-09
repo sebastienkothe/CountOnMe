@@ -49,11 +49,15 @@ class Calculator {
         return textToCompute == errorMessage
     }
     
+    private var isReadyToNewCalculation: Bool {
+        worthZero || hasAResult || hasAErrorMessage
+    }
+    
     // MARK: - Internal methods
     func addDigit(_ digit: String) {
         var digitRecovered = digit
         if textToCompute.trimmingCharacters(in: .whitespaces) == "-" { digitRecovered = "-" + digitRecovered; textToCompute.removeAll()}
-        if worthZero || hasAResult || hasAErrorMessage { resetOperation() }
+        if isReadyToNewCalculation { cleanTextToCompute() }
         textToCompute.append(digitRecovered)
     }
     
@@ -63,19 +67,19 @@ class Calculator {
         }
     }
     
-    func resetOperation() {
+    func cleanTextToCompute() {
         textToCompute = ""
     }
     
     func addMathOperator(_ mathOperator: MathOperator) throws {
-        if (textToCompute == "" || textToCompute == "0" || textToCompute.contains("=") || textToCompute.contains("ERROR")) && mathOperator == .minus { textToCompute.removeAll(); textToCompute.append(mathOperator.symbol); return }
+        if isReadyToNewCalculation && mathOperator == .minus { cleanTextToCompute(); textToCompute += mathOperator.symbol; return }
         guard lastElementIsNumber && !hasAResult && !worthZero else { throw CalculatorError.cannotAddAMathOperator }
         textToCompute.append(mathOperator.symbol)
     }
     
     private func addTheRestOfTheCalculation(_ operationsToReduce: inout [String], _ remainingFromCalculation: inout [String]) {
-        operationsToReduce.append(contentsOf: remainingFromCalculation)
-        remainingFromCalculation.removeAll()
+        operationsToReduce += remainingFromCalculation
+        remainingFromCalculation = []
     }
     
     private func handleThePriorityOperations(_ operationsToReduce: inout [String], _ remainingFromCalculation: inout [String]) {
@@ -87,7 +91,7 @@ class Calculator {
         guard lastElementIsNumber && hasEnoughElements && !hasAResult && !worthZero else {
             throw CalculatorError.cannotAddEqualSign }
         
-        var operationsToReduce = elements; var remainingFromCalculation: [String] = []; var operandLeft = 0.0; var operandRight = 0.0; var result: Double = 0.0
+        var operatorRecovered: String?; var operationsToReduce = elements; var remainingFromCalculation = [String](); var operandLeft = 0.0 { didSet { if operationsToReduce[1].isAnOperator { operatorRecovered = operationsToReduce[1] }}}; var operandRight = 0.0; var result: Double = 0.0;
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 || !remainingFromCalculation.isEmpty {
@@ -96,19 +100,16 @@ class Calculator {
                 addTheRestOfTheCalculation(&operationsToReduce, &remainingFromCalculation)
             }
             
-            var operatorRecovered = operationsToReduce[1]
-            
             if operationsToReduce.count > 3 && operationsToReduce[3].isPriorityOperator {
                 handleThePriorityOperations(&operationsToReduce, &remainingFromCalculation)
             }
-            
-            operatorRecovered = operationsToReduce[1]
             
             convertOperandsToDouble(&operandLeft, &operandRight, operationsToReduce: operationsToReduce)
             
             if textToCompute == errorMessage { return }
             
             do {
+                guard let operatorRecovered = operatorRecovered else { return }
                 try performTheCalculation(operatorRecovered: operatorRecovered, operandLeft: operandLeft, operandRight: operandRight, &result)
             }
             catch { throw error }
@@ -116,8 +117,8 @@ class Calculator {
             excludeItems(&operationsToReduce, howManyItems: 3)
             operationsToReduce.insert("\(result)", at: 0)
         }
-        
-        textToCompute.append(" = \(operationsToReduce[0])")
+
+        if !operationsToReduce[0].isEmpty { textToCompute += " = \(operationsToReduce[0])" }
     }
     
     // MARK: - Private methods
@@ -133,16 +134,19 @@ class Calculator {
     }
 
     private func convertOperandsToDouble(_ operandLeft: inout Double, _ operandRight: inout Double, operationsToReduce: [String]) {
-        guard let operandLeftConverted = Double(operationsToReduce[0]), let operandRightConverted = Double(operationsToReduce[2]) else { textToCompute.removeAll(); textToCompute = errorMessage ; return }
+        guard let operandLeftConverted = Double(operationsToReduce[0]), let operandRightConverted = Double(operationsToReduce[2]) else { cleanTextToCompute(); textToCompute = errorMessage ; return }
         
         operandLeft = operandLeftConverted
         operandRight = operandRightConverted
     }
     
     private func handleTheNearestPriorityCalculation(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIsNegative: Bool) {
+        
         let operatorRequired = operatorIsNegative ? "-" : "+"
         remainingFromCalculation.append(operatorRequired)
+        
         if operatorIsNegative { operationsToReduce[0].removeFirst() }
+        
         remainingFromCalculation.append(operationsToReduce[0])
         operationsToReduce.removeFirst()
         operationsToReduce[0] += operationsToReduce[1]
@@ -161,5 +165,12 @@ extension String {
     
     var isNegativeNumber: Bool {
         self.contains("-")
+    }
+    
+    var isAnOperator: Bool {
+        for operatorSign in MathOperator.allCases where self == operatorSign.symbol.trimmingCharacters(in: .whitespaces) {
+            return true
+        }
+        return false
     }
 }

@@ -41,7 +41,7 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction private func didTapOnResetButton() {
-        calculator.resetOperation()
+        calculator.cleanTextToCompute()
     }
     
     @IBAction private func didTapOnEqualButton() {
