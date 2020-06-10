@@ -23,7 +23,7 @@ class Calculator {
         return textToCompute.split(separator: " ").map { "\($0)" }
     }
     
-    private var textToCompute: String = "0" {
+    private var textToCompute: String = "" {
         didSet {
             delegate?.textToComputeDidChange(textToCompute: textToCompute)
         }
@@ -56,15 +56,20 @@ class Calculator {
     
     // MARK: - Internal methods
     func addDigit(_ digit: String) {
+        if isReadyToNewCalculation { cleanTextToCompute() }
         var digitRecovered = digit
         
+//        if digitRecovered.contains(MathOperator.minus.symbol) {textToCompute.append(digitRecovered); return}
         if digitRecovered.isNull {
+            if textToCompute.isEmpty { textToCompute = "0"; return }
             guard let lastElement = elements.last, let firstElement = elements.first else { return }
-            guard lastElement.isAnOperator || (!firstElement.isNull && !lastElement.isNull) else { return }
+            guard lastElement.isAnOperator || (!firstElement.isNull && !lastElement.isNull && !lastElement.contains(MathOperator.minus.symbol)) else { return }
         }
         
+        if !digitRecovered.isNull && elements.last == "0" { return }
+        
         if textToCompute == MathOperator.minus.symbol { digitRecovered = MathOperator.minus.symbol + digitRecovered; textToCompute.removeAll()}
-        if isReadyToNewCalculation { cleanTextToCompute() }
+
         textToCompute.append(digitRecovered)
     }
     
@@ -80,7 +85,9 @@ class Calculator {
     
     func addMathOperator(_ mathOperator: MathOperator) throws {
         if isReadyToNewCalculation && mathOperator == .minus { textToCompute = mathOperator.symbol; return }
-        guard lastElementIsNumber && !hasAResult && !worthZero else { throw CalculatorError.cannotAddAMathOperator }
+        if mathOperator == .minus && elements.last!.isAnOperator && elements.last! != mathOperator.symbol && elements.last! != MathOperator.plus.symbol { textToCompute.append(mathOperator.symbol); return
+        }
+        guard lastElementIsNumber && !hasAResult else { throw CalculatorError.cannotAddAMathOperator }
         textToCompute.append(" \(mathOperator.symbol) ")
     }
     
@@ -133,7 +140,9 @@ class Calculator {
         switch operatorRecovered {
         case MathOperator.plus.symbol: result = operandLeft + operandRight
         case MathOperator.minus.symbol: result = operandLeft - operandRight
-        case MathOperator.multiplication.symbol: result = operandLeft * operandRight
+        case MathOperator.multiplication.symbol:
+            if operandRight.isZero || operandLeft == -0 || operandLeft.isZero { result = 0; return }
+            result = operandLeft * operandRight
         case MathOperator.division.symbol:
             guard !operandRight.isZero else { textToCompute = errorMessage ; throw CalculatorError.cannotDivideByZero }
             result = operandLeft / operandRight
