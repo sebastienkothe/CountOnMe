@@ -30,8 +30,8 @@ class Calculator {
     }
     
     private var lastElementIsNumber: Bool {
-        guard let lastElementFromTextToCompute = textToCompute.last else { return false }
-        return lastElementFromTextToCompute.isNumber
+        guard let lastElement = textToCompute.last else { return false }
+        return lastElement.isNumber
     }
     
     private var hasEnoughElements: Bool {
@@ -58,12 +58,13 @@ class Calculator {
     func addDigit(_ digit: String) {
         if isReadyToNewCalculation { cleanTextToCompute() }
         var digitRecovered = digit
-        
-//        if digitRecovered.contains(MathOperator.minus.symbol) {textToCompute.append(digitRecovered); return}
+
         if digitRecovered.isNull {
             if textToCompute.isEmpty { textToCompute = "0"; return }
             guard let lastElement = elements.last, let firstElement = elements.first else { return }
-            guard lastElement.isAnOperator || (!firstElement.isNull && !lastElement.isNull && !lastElement.contains(MathOperator.minus.symbol)) else { return }
+            
+            guard lastElement.isAnOperator || (!firstElement.isNull && !lastElement.isNull) else { return }
+            if firstElement == "-0" {return}
         }
         
         if !digitRecovered.isNull && elements.last == "0" { return }
@@ -85,7 +86,8 @@ class Calculator {
     
     func addMathOperator(_ mathOperator: MathOperator) throws {
         if isReadyToNewCalculation && mathOperator == .minus { textToCompute = mathOperator.symbol; return }
-        if mathOperator == .minus && elements.last!.isAnOperator && elements.last! != mathOperator.symbol && elements.last! != MathOperator.plus.symbol { textToCompute.append(mathOperator.symbol); return
+        guard let lastElement = elements.last else { return }
+        if mathOperator == .minus && lastElement.isAnOperator && lastElement != mathOperator.symbol && lastElement != MathOperator.plus.symbol { textToCompute.append(mathOperator.symbol); return
         }
         guard lastElementIsNumber && !hasAResult else { throw CalculatorError.cannotAddAMathOperator }
         textToCompute.append(" \(mathOperator.symbol) ")
@@ -114,7 +116,7 @@ class Calculator {
                 addTheRestOfTheCalculation(&operationsToReduce, &remainingFromCalculation)
             }
             
-            if operationsToReduce.count > 3 && operationsToReduce[3].isPriorityOperator {
+            if operationsToReduce.count > 3 && operationsToReduce[3].isPriorityOperator && !operationsToReduce[1].isPriorityOperator {
                 handleThePriorityOperations(&operationsToReduce, &remainingFromCalculation)
             }
             
