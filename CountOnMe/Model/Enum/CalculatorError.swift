@@ -5,7 +5,6 @@
 //  Created by Sébastien Kothé on 31/05/2020.
 //  Copyright © 2020 sebastienkothe. All rights reserved.
 //
-// swiftlint:disable trailing_whitespace
 
 import Foundation
 
@@ -13,7 +12,7 @@ enum CalculatorError: Error {
     case cannotDivideByZero
     case cannotAddAMathOperator
     case cannotAddEqualSign
-    
+
     var title: String {
         switch self {
         case .cannotDivideByZero: return "Cannot divide by zero"

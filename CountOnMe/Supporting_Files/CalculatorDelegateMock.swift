@@ -10,7 +10,7 @@ import Foundation
 
 class CalculatorDelegateMock: CalculatorDelegate {
     var textToCompute = ""
-    
+
     func textToComputeDidChange(textToCompute: String) {
         self.textToCompute = textToCompute
     }
