@@ -1,18 +1,18 @@
 //
 //  AppDelegate.swift
-//  SimpleCalc
+//  CountOnMe
 //
-//  Created by Vincent Saluzzo on 29/03/2019.
-//  Copyright © 2019 Vincent Saluzzo. All rights reserved.
+//  Created by Sébastien Kothé on 31/05/2020.
+//  Copyright © 2020 sebastienkothe. All rights reserved.
 //
 
 import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         return true
     }

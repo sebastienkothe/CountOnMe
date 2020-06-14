@@ -9,9 +9,13 @@
 import Foundation
 
 class CalculatorDelegateMock: CalculatorDelegate {
+    var errorRecovered: CalculatorError?
+    func didProduceError(_ error: CalculatorError) {
+        errorRecovered = error
+    }
+    
     var textToCompute = ""
-
-    func textToComputeDidChange(textToCompute: String) {
-        self.textToCompute = textToCompute
+    func didChangeOperation(_ operation: String) {
+        self.textToCompute = operation
     }
 }
