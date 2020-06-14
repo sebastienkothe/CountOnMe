@@ -25,7 +25,7 @@ class Calculator {
             guard lastElement.isAnOperator || (!firstElement.isNull && !lastElement.isNull) else { return }
             if (firstElement == "-0" && !lastElement.isAnOperator) || lastElement == "-0" { return }
         } else {
-            if elements.last == "0" { return }
+            if elements.last == "0" || elements.last == "-0" { return }
         }
         
         if textToCompute == MathOperator.minus.symbol {

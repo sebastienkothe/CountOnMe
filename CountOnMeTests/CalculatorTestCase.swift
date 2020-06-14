@@ -275,6 +275,14 @@ class CalculatorTestCase: XCTestCase {
             XCTAssertEqual(calculatorDelegateMock.errorRecovered, .cannotAddAMathOperator)
         }
     }
+    
+    func testGivenTextToComputeIsWorthMinus0_WhenTryingToAdd1_Then1ShouldNotBeAdded() {
+        addExpressionToTextToCompute("-0")
+        
+        calculator.addDigit("1")
+        
+        XCTAssertEqual(calculatorDelegateMock.textToCompute, "-0")
+    }
 }
 
 extension String {
