@@ -283,6 +283,14 @@ class CalculatorTestCase: XCTestCase {
         
         XCTAssertEqual(calculatorDelegateMock.textToCompute, "-0")
     }
+    
+    func testGivenTextToComputeIsWorthMinus0Minus5_WhenTryingToAdd0_Then0ShouldBeAdded() {
+        addExpressionToTextToCompute("-0 - 5")
+        
+        calculator.addDigit("0")
+        
+        XCTAssertEqual(calculatorDelegateMock.textToCompute, "-0 - 50")
+    }
 }
 
 extension String {

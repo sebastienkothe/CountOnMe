@@ -19,13 +19,12 @@ class Calculator {
         
         var digitRecovered = digit
         
-        if digitRecovered.isNull {
-            if textToCompute.isEmpty { textToCompute = digitRecovered; return }
+        if digitRecovered.isNull && !textToCompute.isEmpty {
             guard let lastElement = elements.last, let firstElement = elements.first else { return }
             guard lastElement.isAnOperator || (!firstElement.isNull && !lastElement.isNull) else { return }
-            if (firstElement == "-0" && !lastElement.isAnOperator) || lastElement == "-0" { return }
+            guard (firstElement != zeroNegative && lastElement.isAnOperator) || lastElement != zeroNegative else { return }
         } else {
-            if elements.last == "0" || elements.last == "-0" { return }
+            if elements.last == "0" || elements.last == zeroNegative { return }
         }
         
         if textToCompute == MathOperator.minus.symbol {
@@ -111,6 +110,7 @@ class Calculator {
     // MARK: - Private properties
     private let errorMessage = "ERROR"
     private let equalSign = "="
+    private let zeroNegative = "-0"
     
     private var elements: [String] {
         return textToCompute.split(separator: " ").map { "\($0)" }
