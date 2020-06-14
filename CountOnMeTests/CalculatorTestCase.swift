@@ -69,7 +69,7 @@ class CalculatorTestCase: XCTestCase {
     }
     
     func testGivenOperatorIsMinus_WhenTextToComputeIsWorthTextToComputeCase_ThenTextToComputeShouldContainMinus() {
-        let textToComputeCases = ["0", "=", "ERROR", ""]
+        let textToComputeCases = ["=", "ERROR", ""]
         
         for textToComputeCase in textToComputeCases {
             calculator.addDigit(textToComputeCase)
@@ -291,6 +291,15 @@ class CalculatorTestCase: XCTestCase {
         
         XCTAssertEqual(calculatorDelegateMock.textToCompute, "-0 - 50")
     }
+    
+    func testGivenTextToComputeIsEmpty_WhenTryingToAdd0AndMinusOperator_ThenMinusOperatorShouldBeAdded() {
+        
+        calculator.addDigit("0")
+        calculator.addMathOperator(MathOperator.minus)
+        
+        XCTAssertEqual(calculatorDelegateMock.textToCompute, "0 - ")
+    }
+    
 }
 
 extension String {

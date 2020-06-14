@@ -24,7 +24,7 @@ class Calculator {
             guard lastElement.isAnOperator || (!firstElement.isNull && !lastElement.isNull) else { return }
             guard (firstElement != zeroNegative && lastElement.isAnOperator) || lastElement != zeroNegative else { return }
         } else {
-            if elements.last == "0" || elements.last == zeroNegative { return }
+            guard !(elements.last == "0" || elements.last == zeroNegative) else { return }
         }
         
         if textToCompute == MathOperator.minus.symbol {
@@ -52,7 +52,7 @@ class Calculator {
     }
     
     func addMathOperator(_ mathOperator: MathOperator) {
-        if isReadyToNewCalculation && mathOperator == .minus { textToCompute = mathOperator.symbol; return }
+        if isReadyToNewCalculation && mathOperator == .minus && !elements.contains("0") { textToCompute = mathOperator.symbol; return }
         
         if mathOperator == .minus {
             guard let lastElement = elements.last else { return }
