@@ -24,11 +24,12 @@ class Calculator {
             guard lastElement.isAnOperator || (!firstElement.isNull && !lastElement.isNull) else { return }
             guard (firstElement != zeroNegative && lastElement.isAnOperator) || lastElement != zeroNegative else { return }
         } else {
+            // Prevents the user from adding a number greater than 0 after a 0 or a -0
             guard !(elements.last == "0" || elements.last == zeroNegative) else { return }
         }
         
         if textToCompute == MathOperator.minus.symbol {
-            digitRecovered = MathOperator.minus.symbol + digitRecovered; textToCompute = ""
+            digitRecovered = MathOperator.minus.symbol + digitRecovered; cleanTextToCompute()
         }
         
         textToCompute.append(digitRecovered)
@@ -54,7 +55,9 @@ class Calculator {
     func addMathOperator(_ mathOperator: MathOperator) {
         
         if mathOperator == .minus {
+            // Here we are checking if we can add a minus operator in order to then create a negative number
             guard !(isReadyToNewCalculation && !elements.contains("0")) else { textToCompute = mathOperator.symbol; return }
+            
             guard let lastElement = elements.last else { return }
             guard !lastElement.isPriorityOperator else { textToCompute += mathOperator.symbol; return }
         }
