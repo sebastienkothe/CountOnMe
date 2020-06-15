@@ -52,9 +52,9 @@ class Calculator {
     }
     
     func addMathOperator(_ mathOperator: MathOperator) {
-        if isReadyToNewCalculation && mathOperator == .minus && !elements.contains("0") { textToCompute = mathOperator.symbol; return }
         
         if mathOperator == .minus {
+            guard !(isReadyToNewCalculation && !elements.contains("0")) else { textToCompute = mathOperator.symbol; return }
             guard let lastElement = elements.last else { return }
             guard !lastElement.isPriorityOperator else { textToCompute += mathOperator.symbol; return }
         }

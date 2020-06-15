@@ -62,9 +62,8 @@ class CalculatorTestCase: XCTestCase {
         
         for expression in expressionToCalculateWithResult {
             addExpressionToTextToCompute(expression.key)
-            guard let result = expressionToCalculateWithResult[expression.value] else { continue }
             calculator.handleTheExpressionToCalculate()
-            XCTAssertEqual(calculatorDelegateMock.textToCompute, "\(expression)\(result)")
+            XCTAssertEqual(calculatorDelegateMock.textToCompute, "\(expression.key)\(expression.value)")
         }
     }
     
@@ -298,6 +297,18 @@ class CalculatorTestCase: XCTestCase {
         calculator.addMathOperator(MathOperator.minus)
         
         XCTAssertEqual(calculatorDelegateMock.textToCompute, "0 - ")
+    }
+    
+    func testGivenSenderTagIsWorth0_WhenSenderTagIsAddedToTheMethod_ThenErrorRecoveredShouldBeWorthNil() {
+        for senderTag in 0...3 {
+            calculator.addDigit("1")
+            calculator.addMathOperatorFrom(tag: senderTag)
+            XCTAssertNil(calculatorDelegateMock.errorRecovered)
+            calculator.cleanTextToCompute()
+        }
+        
+        calculator.addMathOperatorFrom(tag: 4)
+        XCTAssertEqual(calculatorDelegateMock.errorRecovered, .cannotConvertMathOperatorFromTag)
     }
     
 }
