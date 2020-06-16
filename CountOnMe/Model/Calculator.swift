@@ -101,7 +101,7 @@ class Calculator {
             
             guard !textToCompute.contains(errorMessage) else {return}
             
-            excludeItems(&operationsToReduce, howManyItems: 3)
+            excludeItems(&operationsToReduce)
             
             operationsToReduce.insert("\(forTrailingZero(temp: result))", at: 0)
         }
@@ -195,8 +195,8 @@ class Calculator {
         handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsNegative: numberIsNegative)
     }
     
-    private func excludeItems(_ operationsToReduce: inout [String], howManyItems: Int) {
-        operationsToReduce = Array(operationsToReduce.dropFirst(howManyItems))
+    private func excludeItems(_ operationsToReduce: inout [String]) {
+        operationsToReduce = Array(operationsToReduce.dropFirst(3))
     }
     
     private func forTrailingZero(temp: Double) -> String {
