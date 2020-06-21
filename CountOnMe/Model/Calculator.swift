@@ -20,8 +20,11 @@ class Calculator {
         var digitRecovered = digit
         
         if digitRecovered.isNull && !textToCompute.isEmpty {
-            guard let lastElement = elements.last, let firstElement = elements.first else { return }
+            guard let lastElement = elements.last else { return }
+            guard let firstElement = elements.first else { return }
+            
             guard lastElement.isAnOperator || (!firstElement.isNull && !lastElement.isNull) else { return }
+            
             guard (firstElement != zeroNegative && lastElement.isAnOperator) || lastElement != zeroNegative else { return }
         } else {
             // Prevents the user from adding a number greater than 0 after a 0 or a -0
@@ -52,6 +55,7 @@ class Calculator {
         } else { delegate?.didProduceError(.cannotConvertMathOperatorFromTag); return }
     }
     
+    /// Used to add opertor to the operation
     func addMathOperator(_ mathOperator: MathOperator) {
         
         if mathOperator == .minus {
@@ -160,9 +164,15 @@ class Calculator {
             if operandRight.isZero || operandLeft == -0 || operandLeft.isZero { result = 0; return }
             result = operandLeft * operandRight
         case MathOperator.division.symbol:
-            guard !operandRight.isZero else { textToCompute = errorMessage ; delegate?.didProduceError(.cannotDivideByZero); return }
+            guard !operandRight.isZero else {
+                textToCompute = errorMessage
+                delegate?.didProduceError(.cannotDivideByZero)
+                return
+            }
             result = operandLeft / operandRight
-        default: return }
+        default: return
+            
+        }
     }
     
     private func convertOperandsToDouble(_ operandLeft: inout Double, _ operandRight: inout Double, operationsToReduce: [String]) {

@@ -16,10 +16,10 @@ enum CalculatorError: Error {
     
     var title: String {
         switch self {
-        case .cannotDivideByZero: return "Cannot divide by zero"
-        case .cannotAddAMathOperator: return "Cannot add an operator"
-        case .cannotAddEqualSign: return "Cannot add an equal sign"
-        case .cannotConvertMathOperatorFromTag: return "Cannot convert math operator from tag"
+        case .cannotDivideByZero: return "error_divide_by_zero_title".localized
+        case .cannotAddAMathOperator: return "error_add_operator_title".localized
+        case .cannotAddEqualSign: return "error_add_equal_sign_title".localized
+        case .cannotConvertMathOperatorFromTag: return "error_convert_math_operator_title".localized
         }
     }
 }

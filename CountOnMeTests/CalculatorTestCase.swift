@@ -134,10 +134,10 @@ class CalculatorTestCase: XCTestCase {
         ]
         
         let calculatorErrorTitle = [
-            "Cannot divide by zero",
-            "Cannot add an operator",
-            "Cannot add an equal sign",
-            "Cannot convert math operator from tag"
+            "error_divide_by_zero_title".localized,
+            "error_add_operator_title".localized,
+            "error_add_equal_sign_title".localized,
+            "error_convert_math_operator_title".localized
         ]
         
         for calculatorErrorCase in calculatorErrorCases {

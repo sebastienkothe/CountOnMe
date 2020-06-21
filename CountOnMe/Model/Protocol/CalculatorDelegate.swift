@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CalculatorDelegate: AnyObject {
+protocol CalculatorDelegate: class {
     func didChangeOperation(_ operation: String)
     func didProduceError(_ error: CalculatorError)
 }

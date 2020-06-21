@@ -12,8 +12,10 @@
 		1FA43BD8224E569900F565CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD6224E569900F565CB /* Main.storyboard */; };
 		1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD9224E569A00F565CB /* Assets.xcassets */; };
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
+		3636F350249E4F2C008D5AB1 /* CalculatorDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360DA3D2248D035A001C8321 /* CalculatorDelegateMock.swift */; };
+		3636F353249E5042008D5AB1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3636F355249E5042008D5AB1 /* Localizable.strings */; };
+		3636F358249E5104008D5AB1 /* String+Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636F357249E5104008D5AB1 /* String+Localized.swift */; };
 		365F388D248AD480005B52D0 /* CalculatorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365F388C248AD480005B52D0 /* CalculatorTestCase.swift */; };
-		3660F037248FDC110055C56E /* CalculatorDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360DA3D2248D035A001C8321 /* CalculatorDelegateMock.swift */; };
 		3671F5E2247560E900310755 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3671F5E1247560E900310755 /* Calculator.swift */; };
 		36A601CD2483D1CF00D9AA33 /* CalculatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A601CC2483D1CF00D9AA33 /* CalculatorDelegate.swift */; };
 		36A601CF2483D67700D9AA33 /* CalculatorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A601CE2483D67700D9AA33 /* CalculatorError.swift */; };
@@ -42,11 +44,14 @@
 		3602A3632471A55100AF7806 /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3602A3672471A55100AF7806 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		360DA3D2248D035A001C8321 /* CalculatorDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorDelegateMock.swift; sourceTree = "<group>"; };
+		3636F357249E5104008D5AB1 /* String+Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localized.swift"; sourceTree = "<group>"; };
 		365F388C248AD480005B52D0 /* CalculatorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTestCase.swift; sourceTree = "<group>"; };
 		3671F5E1247560E900310755 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; usesTabs = 0; };
 		36A601CC2483D1CF00D9AA33 /* CalculatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorDelegate.swift; sourceTree = "<group>"; };
 		36A601CE2483D67700D9AA33 /* CalculatorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorError.swift; sourceTree = "<group>"; };
 		36A601D02483DB4700D9AA33 /* MathOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathOperator.swift; sourceTree = "<group>"; };
+		36D10069249E77BF00C4D249 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		36D1006A249E77F700C4D249 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		36DB8EFA246EE4F700535D2C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +76,7 @@
 		1FA43BC6224E569900F565CB = {
 			isa = PBXGroup;
 			children = (
+				3636F355249E5042008D5AB1 /* Localizable.strings */,
 				36DB8EFA246EE4F700535D2C /* Default-568h@2x.png */,
 				1FA43BD1224E569900F565CB /* CountOnMe */,
 				3602A3642471A55100AF7806 /* CountOnMeTests */,
@@ -102,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				3602A3672471A55100AF7806 /* Info.plist */,
+				360DA3D2248D035A001C8321 /* CalculatorDelegateMock.swift */,
 				365F388C248AD480005B52D0 /* CalculatorTestCase.swift */,
 			);
 			path = CountOnMeTests;
@@ -153,11 +160,11 @@
 		36DB8EF9246EE34900535D2C /* Supporting_Files */ = {
 			isa = PBXGroup;
 			children = (
+				3636F357249E5104008D5AB1 /* String+Localized.swift */,
 				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
 				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
 				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
 				1FA43BDE224E569A00F565CB /* Info.plist */,
-				360DA3D2248D035A001C8321 /* CalculatorDelegateMock.swift */,
 			);
 			path = Supporting_Files;
 			sourceTree = "<group>";
@@ -228,6 +235,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = 1FA43BC6224E569900F565CB;
 			productRefGroup = 1FA43BD0224E569900F565CB /* Products */;
@@ -246,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */,
+				3636F353249E5042008D5AB1 /* Localizable.strings in Resources */,
 				36DB8EFB246EE4F700535D2C /* Default-568h@2x.png in Resources */,
 				1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */,
 				1FA43BD8224E569900F565CB /* Main.storyboard in Resources */,
@@ -286,11 +295,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3660F037248FDC110055C56E /* CalculatorDelegateMock.swift in Sources */,
 				36A601CD2483D1CF00D9AA33 /* CalculatorDelegate.swift in Sources */,
 				1FA43BD5224E569900F565CB /* CalculatorViewController.swift in Sources */,
 				36A601CF2483D67700D9AA33 /* CalculatorError.swift in Sources */,
 				3671F5E2247560E900310755 /* Calculator.swift in Sources */,
+				3636F358249E5104008D5AB1 /* String+Localized.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
 				36A601D12483DB4700D9AA33 /* MathOperator.swift in Sources */,
 			);
@@ -300,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3636F350249E4F2C008D5AB1 /* CalculatorDelegateMock.swift in Sources */,
 				365F388D248AD480005B52D0 /* CalculatorTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,6 +341,15 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		3636F355249E5042008D5AB1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				36D10069249E77BF00C4D249 /* fr */,
+				36D1006A249E77F700C4D249 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -338,6 +357,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -399,6 +419,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

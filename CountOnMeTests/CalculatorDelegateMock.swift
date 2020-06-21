@@ -7,6 +7,7 @@
 //
 
 import Foundation
+@testable import CountOnMe
 
 class CalculatorDelegateMock: CalculatorDelegate {
     var errorRecovered: CalculatorError?
