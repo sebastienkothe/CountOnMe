@@ -115,7 +115,7 @@ class Calculator {
     }
     
     // MARK: - Private properties
-    private let errorMessage = "ERROR"
+    private let errorMessage = "error_message".localized
     private let equalSign = "="
     private let zeroNegative = "-0"
     

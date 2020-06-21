@@ -10,3 +10,5 @@
 "error_add_operator_title" = "Cannot add an operator";
 "error_add_equal_sign_title" = "Cannot add an equal sign";
 "error_convert_math_operator_title" = "Cannot convert math operator from tag";
+"error_message" = "ERROR";
+"validation_message" = "Alright!";

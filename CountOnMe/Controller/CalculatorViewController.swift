@@ -40,8 +40,8 @@ class CalculatorViewController: UIViewController {
     }
     
     private func handleError(error: CalculatorError) {
-        let alertController = UIAlertController(title: "Error", message: error.title, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Alright!", style: .cancel, handler: nil))
+        let alertController = UIAlertController(title: "error_message".localized, message: error.title, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "validation_message".localized, style: .cancel, handler: nil))
         present(alertController, animated: true)
     }
 }
