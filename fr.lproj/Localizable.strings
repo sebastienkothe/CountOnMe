@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  CountOnMe
+
+  Created by Sébastien Kothé on 20/06/2020.
+  Copyright © 2020 sebastienkothe. All rights reserved.
+*/
+
+"error_divide_by_zero_title" = "Impossible de diviser par zéro";
+"error_add_operator_title" = "Impossible d'ajouter un opérateur";
+"error_add_equal_sign_title" = "Impossible d'ajouter un signe égal";
+"error_convert_math_operator_title" = "Impossible de convertir l'opérateur mathématique depuis le tag";
+
