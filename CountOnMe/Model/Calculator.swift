@@ -39,7 +39,7 @@ class Calculator {
     }
     
     func cleanTextToCompute() {
-        textToCompute = ""
+        textToCompute.removeAll()
     }
     
     func addMathOperatorFrom(tag: Int) {
@@ -107,7 +107,7 @@ class Calculator {
             
             excludeItems(&operationsToReduce)
             
-            operationsToReduce.insert("\(forTrailingZero(temp: result))", at: 0)
+            operationsToReduce.insert("\(convertAndFormat(temp: result))", at: 0)
         }
         
         guard let resultToDisplay = operationsToReduce.first else { return }
@@ -161,7 +161,7 @@ class Calculator {
         case MathOperator.plus.symbol: result = operandLeft + operandRight
         case MathOperator.minus.symbol: result = operandLeft - operandRight
         case MathOperator.multiplication.symbol:
-            if operandRight.isZero || operandLeft == -0 || operandLeft.isZero { result = 0; return }
+            if operandRight.isZero || operandLeft == Double(zeroNegative) || operandLeft.isZero { result = 0; return }
             result = operandLeft * operandRight
         case MathOperator.division.symbol:
             guard !operandRight.isZero else {
@@ -209,7 +209,7 @@ class Calculator {
         operationsToReduce = Array(operationsToReduce.dropFirst(3))
     }
     
-    private func forTrailingZero(temp: Double) -> String {
+    private func convertAndFormat(temp: Double) -> String {
         let tempVar = String(format: "%g", temp)
         return tempVar
     }
