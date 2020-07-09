@@ -8,13 +8,17 @@
 
 import Foundation
 
-class Calculator {
+final class Calculator {
     
     // MARK: - Internal properties
     weak var delegate: CalculatorDelegate?
     
     // MARK: - Internal methods
+    
+    /// To handle the addition of numbers
     func addDigit(_ digit: String) {
+        
+        // To reset the calculation to zero
         if isReadyToNewCalculation { cleanTextToCompute() }
         
         var digitRecovered = digit
@@ -27,10 +31,12 @@ class Calculator {
             
             guard (firstElement != zeroNegative && lastElement.isAnOperator) || lastElement != zeroNegative else { return }
         } else {
-            // Prevents the user from adding a number greater than 0 after a 0 or a -0
+            
+            // To prevent the user from adding a number greater than 0 after a 0 or a -0
             guard !(elements.last == "0" || elements.last == zeroNegative) else { return }
         }
         
+        // To create a negative number
         if textToCompute == MathOperator.minus.symbol {
             digitRecovered = MathOperator.minus.symbol + digitRecovered; cleanTextToCompute()
         }
@@ -42,6 +48,7 @@ class Calculator {
         textToCompute.removeAll()
     }
     
+    /// To add a math operator
     func addMathOperatorFrom(tag: Int) {
         var mathOperator: MathOperator?
         
@@ -59,6 +66,7 @@ class Calculator {
     func addMathOperator(_ mathOperator: MathOperator) {
         
         if mathOperator == .minus {
+            
             // Here we are checking if we can add a minus operator in order to then create a negative number
             guard !(isReadyToNewCalculation && !elements.contains("0")) else { textToCompute = mathOperator.symbol; return }
             
@@ -71,6 +79,7 @@ class Calculator {
         textToCompute.append(" \(mathOperator.symbol) ")
     }
     
+    /// Used to resolve the calculation
     func handleTheExpressionToCalculate() {
         guard lastElementIsNumber && hasEnoughElements && !hasAResult && !worthZero else {
             delegate?.didProduceError(.cannotAddEqualSign); return }
@@ -95,6 +104,7 @@ class Calculator {
                 addTheRestOfTheCalculation(&operationsToReduce, &remainingFromCalculation)
             }
             
+            // Handles the priority operations
             if operationsToReduce.count > 3 && operationsToReduce[3].isPriorityOperator && !operationsToReduce[1].isPriorityOperator {
                 handleThePriorityOperations(&operationsToReduce, &remainingFromCalculation)
             }
@@ -105,6 +115,7 @@ class Calculator {
             
             guard !textToCompute.contains(errorMessage) else {return}
             
+            // Used to exclude the first three elements
             excludeItems(&operationsToReduce)
             
             operationsToReduce.insert("\(convertAndFormat(temp: result))", at: 0)
@@ -123,6 +134,7 @@ class Calculator {
         return textToCompute.split(separator: " ").map { "\($0)" }
     }
     
+    // When the value changes, we send the new value to the delegate
     private var textToCompute: String = "" {
         didSet {
             delegate?.didChangeOperation(textToCompute)
@@ -155,6 +167,8 @@ class Calculator {
     }
     
     // MARK: - Private methods
+    
+    /// Used to perform the calculation
     private func performTheCalculation(_ operatorRecovered: String, _ operandLeft: Double, _ operandRight: Double, _ result: inout Double) {
         
         switch operatorRecovered {
@@ -175,6 +189,7 @@ class Calculator {
         }
     }
     
+    /// Used to convert operands from String to Double
     private func convertOperandsToDouble(_ operandLeft: inout Double, _ operandRight: inout Double, operationsToReduce: [String]) {
         guard let operandLeftConverted = Double(operationsToReduce[0]), let operandRightConverted = Double(operationsToReduce[2]) else { cleanTextToCompute(); textToCompute = errorMessage ; return }
         
@@ -182,6 +197,7 @@ class Calculator {
         operandRight = operandRightConverted
     }
     
+    /// Used to set aside non-priority operations
     private func handleTheNearestPriorityCalculation(_ remainingFromCalculation: inout [String], _ operationsToReduce: inout [String], operatorIsNegative: Bool) {
         
         let operatorRequired = operatorIsNegative ? MathOperator.minus.symbol : MathOperator.plus.symbol
@@ -195,6 +211,7 @@ class Calculator {
         operationsToReduce.remove(at: 1)
     }
     
+    /// To add the rest of the calculation
     private func addTheRestOfTheCalculation(_ operationsToReduce: inout [String], _ remainingFromCalculation: inout [String]) {
         operationsToReduce += remainingFromCalculation
         remainingFromCalculation = []
@@ -205,10 +222,12 @@ class Calculator {
         handleTheNearestPriorityCalculation(&remainingFromCalculation, &operationsToReduce, operatorIsNegative: numberIsNegative)
     }
     
+    /// Used to delete items that are no longer needed
     private func excludeItems(_ operationsToReduce: inout [String]) {
         operationsToReduce = Array(operationsToReduce.dropFirst(3))
     }
     
+    /// To convert the result from Double to String in the particular format
     private func convertAndFormat(temp: Double) -> String {
         let tempVar = String(format: "%g", temp)
         return tempVar

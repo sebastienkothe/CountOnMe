@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController {
+final class CalculatorViewController: UIViewController {
     
     // MARK: Internal methods
     override func viewDidLoad() {
@@ -39,6 +39,7 @@ class CalculatorViewController: UIViewController {
         calculator.handleTheExpressionToCalculate()
     }
     
+    /// Used to show the appropriate error message
     private func handleError(error: CalculatorError) {
         let alertController = UIAlertController(title: "error_message".localized, message: error.title, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "validation_message".localized, style: .cancel, handler: nil))
